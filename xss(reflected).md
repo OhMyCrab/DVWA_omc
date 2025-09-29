@@ -25,3 +25,4 @@ Reflected XSS do input `name` được echo thẳng ra HTML mà không encode. A
 
 # MEDIUM
 
+"><img src=x onerror=alert('hwllnah')>
