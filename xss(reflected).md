@@ -19,7 +19,7 @@ Reflected XSS do input `name` được echo thẳng ra HTML mà không encode. A
 2. thay đổi param `aaa` với payload: `<script>alert('hwllnah')</script>`.
 3. Forward request → alert hwllnah xuất hiện trên browser.
 4. Save Burp raw request: `evidence/burp/xss_reflected_request_20250929.http`.
-5. Screenshot alert: ![anh1](reflected-xss-low.png).
+5. Screenshot alert: ![anh1](images/reflected-xss-low.png).
 
 ## 5) Payload tested
   <script>alert('hwllnah')</script>
