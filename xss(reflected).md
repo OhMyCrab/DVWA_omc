@@ -1,5 +1,5 @@
 # XSS — Reflected on /vulnerabilities/xss_r/
-##LOW
+## LOW
  1) Target
 - Title: Reflected XSS on /vulnerabilities/xss_r/
 - Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/xss_r/?name=
@@ -23,5 +23,5 @@ Reflected XSS do input `name` được echo thẳng ra HTML mà không encode. A
 5) Payload tested
   <script>alert('hwllnah')</script>
 
-##MEDIUM
+## MEDIUM
 
