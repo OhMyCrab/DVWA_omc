@@ -24,5 +24,5 @@ Reflected XSS do input `name` được echo thẳng ra HTML mà không encode. A
   <script>alert('hwllnah')</script>
 
 # MEDIUM
-
+phải url encode mới chạy được khi intercept
 "><img src=x onerror=alert('hwllnah')>
