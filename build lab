@@ -11,7 +11,7 @@ Tiếp tục mở phpMyAdmin (http://localhost/phpmyadmin) → tạo database m�
 Vào tab User accounts trong phpMyAdmin → thêm user mới:
 Username: dvwa
 Host: localhost
-Password: dvwa
+Password: p@ssw0rd
 Gán quyền đầy đủ cho database dvwa.
 Sau khi tạo xong database và user, quay lại trình duyệt → vào http://localhost/dvwa/setup.php.
 Bấm Create / Reset Database, trang báo thành công.
