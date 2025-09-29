@@ -1,6 +1,6 @@
 Vào trang GitHub của DVWA (digininja/DVWA) → bấm Code → Download ZIP để tải source.
-Sau khi tải xong, giải nén file ZIP và đổi tên thư mục thành dvwa.
-Copy thư mục dvwa này vào thư mục htdocs trong XAMPP (\xampp\htdocs\).
+Sau khi tải xong, giải nén file ZIP.
+Copy thư mục DVWA-master vào thư mục htdocs trong XAMPP (\xampp\htdocs\).
 Mở XAMPP, bật Apache và MySQL.
 Truy cập http://localhost/DVWA-master/ để test, thấy báo lỗi kết nối database: DVWA System error - config file not found. Copy config/config.inc.php.dist to config/config.inc.php and configure to your environment. 
 -> truy cập xampp\htdocs\DVWA-master\config, sửa tên file config.inc.php.dist thành config.inc.php
@@ -13,9 +13,9 @@ Username: dvwa
 Host: localhost
 Password: p@ssw0rd
 Gán quyền đầy đủ cho database dvwa.
-Sau khi tạo xong database và user, quay lại trình duyệt → vào http://localhost/dvwa/setup.php.
+Sau khi tạo xong database và user, quay lại trình duyệt → vào http://localhost/DVWA-master/setup.php.
 Bấm Create / Reset Database, trang báo thành công.
-Mở lại http://localhost/dvwa/login.php → đăng nhập với:
+Mở lại http://localhost/DVWA-master/login.php → đăng nhập với:
 Username: admin
 Password: password
 Đăng nhập thành công vào giao diện DVWA.
