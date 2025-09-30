@@ -7,7 +7,7 @@
 - Security level: low
 
 2.) Tóm tắt
-Reflected XSS do input `name` được echo thẳng ra HTML mà không encode. Attack cho phép chạy JS trên browser nạn nhân (steal cookie, CSRF chaining).
+Truyền payload <script>alert('hwllnah')</script> vào biến name, giá trị này được chèn thô vào trang mà không được escape dẫn tới thực thi mã JavaScript phía client.
 
 3.) PoC (step-by-step)
 1. Intercept request `/vulnerabilities/xss_r/?name=aaa`.
@@ -21,6 +21,7 @@ Reflected XSS do input `name` được echo thẳng ra HTML mà không encode. A
 5.) Phân tích source code
 source code có dòng: $html .= '<pre>Hello ' . $_GET[ 'name' ] . '</pre>';
 //$_GET['name'] lấy trực tiếp dữ liệu từ URL mà không xử lý gì cả.
+
 # MEDIUM
 1.) Target
 - Title: Reflected XSS on /vulnerabilities/xss_r/
@@ -72,3 +73,5 @@ Thay payload đã URL encode từ level medium vào high:%3Cimg%20src%3D%22x.png
 5.) Phân tích source code 
 source code có dòng: $name = preg_replace( '/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', $_GET[ 'name' ] );
 //$_GET['name'] đã được xử lý bằng preg_replace để loại bỏ các chuỗi <script> nhưng không chặn được các vector khác như event handler (onerror, onclick)
+
+cách khắc phục để không bị lỗi: dùng htmlspecialchars()
