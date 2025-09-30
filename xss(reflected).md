@@ -6,6 +6,7 @@
 - Security level: low
 
 2.) Tóm tắt
+
 Truyền payload <script>alert('hwllnah')</script> vào biến name, giá trị này được chèn thô vào trang mà không được escape dẫn tới thực thi mã JavaScript phía client.
 
 3.) PoC (step-by-step)
@@ -29,6 +30,7 @@ source code có dòng: $html .= '<pre>Hello ' . $_GET[ 'name' ] . '</pre>';
 - Security level: medium
 
 2.) Tóm tắt
+
 Vì server strip (loại bỏ) thẻ <script> nên thẻ mở bị xóa ⇒ payload <script>alert('hwllnah')</script> không xuất hiện/không được parse => không chạy.
 Ý tưởng thay thế: chèn một thẻ có handler (không phải <script>) — ví dụ <img> + onerror vì server chỉ strip <script>, vẫn cho phép các thẻ/thuộc tính khác.
 Khi thẻ không tìm thấy src thì onerror sẽ chạy JS.
