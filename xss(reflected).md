@@ -35,9 +35,9 @@ Vì server strip (loại bỏ) thẻ <script> nên thẻ mở bị xóa ⇒ payl
 2. thay đổi param `aaa` với payload: `<script>alert('hwllnah')</script>`.
 3. Forward request → mở Response → Raw / View Source. Do server strip thẻ <script> (thẻ mở bị xóa) nên payload không chạy.
 4. Thử payload bypass (không dùng <script>): `<img src=x onerror=alert('hwllnah')>`
-5. URL-encoded: %3Cimg%20src%3D%22nonexistent.png%22%20onerror%3D%22alert('hwllnah')%22%3E
+5. URL-encoded: %3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E
 6. Forward request → alert hwllnah xuất hiện trên browser.
 7. Screenshot alert: ![anh2](images/reflected-xss-medium.png).
 
 5) Payload tested
-<img src=x onerror=alert('hwllnah')>
+<img src=x.png onerror=alert('hwllnah')>
