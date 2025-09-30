@@ -56,6 +56,7 @@ source code có dòng: $name = str_replace( '<script>', '', $_GET[ 'name' ] );
 - Security level: high
 
 2.) Tóm tắt
+
 Thay payload đã URL encode từ level medium vào high:%3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E. vì không tìm thấy src nên onerror sẽ chạy JS.
 
 3.) PoC (step-by-step)
