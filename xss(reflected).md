@@ -1,7 +1,6 @@
 # XSS — Reflected on /vulnerabilities/xss_r/
 # LOW
 1.) Target
-- Title: Reflected XSS on /vulnerabilities/xss_r/
 - Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/xss_r/?name=
 - Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 - Security level: low
@@ -25,7 +24,6 @@ source code có dòng: $html .= '<pre>Hello ' . $_GET[ 'name' ] . '</pre>';
 
 # MEDIUM
 1.) Target
-- Title: Reflected XSS on /vulnerabilities/xss_r/
 - Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/xss_r/?name=
 - Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 - Security level: medium
@@ -53,7 +51,6 @@ source code có dòng: $name = str_replace( '<script>', '', $_GET[ 'name' ] );
 
 # HIGH
 1.) Target
-- Title: Reflected XSS on /vulnerabilities/xss_r/
 - Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/xss_r/?name=
 - Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 - Security level: high
@@ -75,4 +72,5 @@ Thay payload đã URL encode từ level medium vào high:%3Cimg%20src%3D%22x.png
 source code có dòng: $name = preg_replace( '/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', $_GET[ 'name' ] );
 //$_GET['name'] đã được xử lý bằng preg_replace để loại bỏ các chuỗi <script> nhưng không chặn được các vector khác như event handler (onerror, onclick)
 
-cách khắc phục để không bị lỗi: dùng htmlspecialchars()
+# FIX BUG
+Dùng htmlspecialchars() để ngăn XSS, encode tất cả ký tự HTML đặc biệt trước khi hiển thị
