@@ -13,7 +13,8 @@ Truyền payload <script>alert('hwllnah')</script> vào biến name, giá trị 
 1. Intercept request `/vulnerabilities/xss_r/?name=aaa`.
 2. thay đổi param `aaa` với payload: `<script>alert('hwllnah')</script>`.
 3. Forward request → alert hwllnah xuất hiện trên browser.
-4. Screenshot alert: ![anh1](images/reflected-xss-low.png).
+4. Kết quả PoC cho lỗ hổng Reflected XSS:
+![anh1](images/reflected-xss-low.png).
 
 4.) Payload tested
 <script>alert('hwllnah')</script>
@@ -41,7 +42,7 @@ Khi thẻ không tìm thấy src thì onerror sẽ chạy JS.
 4. Thử payload bypass (không dùng <script>): `<img src=x onerror=alert('hwllnah')>` đã URL encode.
 5. URL-encoded: %3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E
 6. Forward request → alert hwllnah xuất hiện trên browser.
-7. Screenshot alert: ![anh2](images/reflected-xss-medium.png).
+7. Kết quả PoC cho lỗ hổng Reflected XSS: ![anh2](images/reflected-xss-medium.png).
 
 4.) Payload tested
 <img src=x.png onerror=alert('hwllnah')>
@@ -65,7 +66,7 @@ Thay payload đã URL encode từ level medium vào high:%3Cimg%20src%3D%22x.png
 2. thay đổi param `aaa` với payload: `<img src=x onerror=alert('hwllnah')>` đã URL encode.
 5. URL-encoded: %3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E
 6. Forward request → alert hwllnah xuất hiện trên browser.
-7. Screenshot alert: ![anh3](images/reflected-xss-high.png).
+7. Kết quả PoC cho lỗ hổng Reflected XSS: ![anh3](images/reflected-xss-high.png).
 
 4.) Payload tested
 <img src=x.png onerror=alert('hwllnah')>
