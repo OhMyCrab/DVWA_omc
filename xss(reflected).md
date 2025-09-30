@@ -20,6 +20,7 @@ Truyền payload <script>alert('hwllnah')</script> vào biến name, giá trị 
 <script>alert('hwllnah')</script>
   
 5.) Phân tích source code
+
 source code có dòng: $html .= '<pre>Hello ' . $_GET[ 'name' ] . '</pre>';
 //$_GET['name'] lấy trực tiếp dữ liệu từ URL mà không xử lý gì cả.
 
@@ -48,6 +49,7 @@ Khi thẻ không tìm thấy src thì onerror sẽ chạy JS.
 <img src=x.png onerror=alert('hwllnah')>
 
 5.)Phân tích source code
+
 source code có dòng: $name = str_replace( '<script>', '', $_GET[ 'name' ] );
 //$_GET[ 'name' ] đã có xử lý chặn <script>. Cách này chỉ loại bỏ chuỗi <script> đúng chuẩn, nhưng không chặn các biến thể viết hoa, có khoảng trắng, attribute khác, hoặc các event handler như onerror/onclick.
 
@@ -72,6 +74,7 @@ Thay payload đã URL encode từ level medium vào high:%3Cimg%20src%3D%22x.png
 <img src=x.png onerror=alert('hwllnah')>
 
 5.) Phân tích source code 
+
 source code có dòng: $name = preg_replace( '/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', $_GET[ 'name' ] );
 //$_GET['name'] đã được xử lý bằng preg_replace để loại bỏ các chuỗi <script> nhưng không chặn được các vector khác như event handler (onerror, onclick)
 
