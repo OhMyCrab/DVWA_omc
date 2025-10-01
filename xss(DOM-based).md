@@ -1,6 +1,26 @@
 # DOM based XSS on /vulnerabilities/xss_d/
 1. DOM được tạo bằng đối tượng được gọi là document, chứa một thuộc tính được gọi là URL. Khi trình phân tích cú pháp đến mã Javascript, nó sẽ thực thi mã đó và sửa đổi HTML thô của trang.
-2. Vì là DOM-based XSS — trang không phụ thuộc vào server để “chèn” payload vào HTML; nó lấy giá trị trực tiếp từ location (thanh địa chỉ) bằng JavaScript ở phía client. Khi chỉnh request trong Burp rồi forward thì chỉ thay đổi request gửi tới server, nhưng thanh địa chỉ của trình duyệt vẫn giữ URL cũ — nên client-side JS (dùng location.search/location.hash) không thấy payload và sẽ không chèn/thi hành. Khi gõ payload vào thanh địa chỉ và load trực tiếp, location chứa payload -> JS client đọc -> document.write/innerHTML chèn vào DOM -> alert hiện.
+2. Bản thân trang web(response HTTP) không thay đổi, nhưng mã phía client có trong trang web lại thực thi khác đi do những sửa đổi độc hại đã xảy ra trong môi trường DOM.
 
 # LOW
-Trong trường hợp này, mã tham chiếu đến document.URL và do đó, một phần của chuỗi này được nhúng tại thời điểm phân tích cú pháp trong HTML, sau đó được phân tích cú pháp ngay lập tức và mã Javascript được tìm thấy ( alert(…) ) được thực thi trong ngữ cảnh của cùng một trang, do đó có tình trạng XSS.
+
+1.) Target
+
+Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/
+Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+Security level: low
+
+2.) Tóm tắt
+
+Trang web lấy giá trị từ tham số default trong URL và chèn trực tiếp vào DOM bằng JavaScript. Nếu tham số này chứa payload độc hại, trình duyệt sẽ thực thi ngay trong ngữ cảnh trang mà không cần server lưu trữ hay thay đổi HTML gốc, dẫn tới DOM‑based XSS.
+
+3.) PoC (step-by-step)
+
+  1.Truy cập http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/default=English.
+  2.Dán payload <script>alert('hwllnah')</script> vào thanh địa chỉ -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=<script>alert('hwllnah')</script>
+  3.Nhấn Enter để load trang.
+  4.Quan sát: khi trang load sẽ hiện alert('hwllnah').
+  5.Kết quả PoC cho lỗ hổng Stored XSS: ![anh1](images/DOM_basedXSS_low.png).
+4.) Payload tested
+
+<script>alert('hwllnah')</script>
