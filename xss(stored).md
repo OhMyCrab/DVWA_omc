@@ -37,7 +37,7 @@ Truyền payload <script>alert('hwll')</script> vào các trường name và mes
 3.) PoC (step-by-step)
   1. Intercept request /vulnerabilities/xss_s/.
   2. Thay đổi giá trị txtName và mtxMessage thành payload: <script>alert('hwll')</script>.
-  3. Forward request → mở Response quan sát, thấy thẻ <script> của trường name(thẻ mở bị xóa) nên payload không chạy -> có thể thay các biến thể viết hoa, có khoảng trắng, attribute khác, hoặc các event handler vào thử.      Còn tham số message hiển thị alert(\&#039;hwllnah\&#039;) -> đã escape ký tự đặc biệt HTML, chuyển <, > và ' thành &lt;, &gt;, &#039;, nên script không còn thực thi được nữa.
+  3. Forward request → mở Response quan sát, thấy thẻ <script> của trường name(thẻ mở bị xóa) nên payload không chạy -> có thể thay các biến thể viết hoa, có khoảng trắng, attribute khác, hoặc các event handler vào thử.      Còn tham số message hiển thị alert(&#039;hwllnah&#039;) -> đã escape ký tự đặc biệt HTML, chuyển <, > và ' thành <, >, ', nên script không còn thực thi được nữa.
   4. Intercept request /vulnerabilities/xss_s/ lần nữa
   5. Thay đổi giá trị txtName thành payload: <img src=x.png onerror=alert('hwll')>
   6. Forward request. Khi load trang, alert('hwll') xuất hiện.
@@ -65,7 +65,8 @@ Truyền payload <script>alert('hwll')</script> vào các trường name và mes
 3.) PoC (step-by-step)
   1. Intercept request /vulnerabilities/xss_s/.
   2. Thay đổi giá trị txtName và mtxMessage thành payload: <script>alert('hwll')</script>.
-  3. Forward request → mở Response quan sát, thấy thẻ <script> của trường name(thẻ mở bị xóa) nên payload không chạy -> có thể thay các biến thể viết hoa, có khoảng trắng, attribute khác, hoặc các event handler vào thử.      Còn tham số message hiển thị alert(\&#039;hwllnah\&#039;) -> đã escape ký tự đặc biệt HTML, chuyển <, > và ' thành &lt;, &gt;, &#039;, nên script không còn thực thi được nữa.
+  3. Forward request → mở Response quan sát, thấy trường name còn > -> có thể đã được xử lý loại bỏ các chuỗi <script nên payload không chạy -> có thể truyền các event handler vào thử.
+  Còn tham số message hiển thị alert(\&#039;hwllnah\&#039;) -> đã escape ký tự đặc biệt HTML, chuyển <, > và ' thành &lt;, &gt;, &#039;, nên script không còn thực thi được nữa.
   4. Intercept request /vulnerabilities/xss_s/ lần nữa
   5. Thay đổi giá trị txtName thành payload: <img src=x.png onerror=alert('hwll')>
   6. Forward request. Khi load trang, alert('hwll') xuất hiện.
@@ -77,8 +78,7 @@ Truyền payload <script>alert('hwll')</script> vào các trường name và mes
 <img src=x.png onerror=alert('hwll')>
 
 5.) Phân tích source code
-
-$name = str_replace( '<script>', '', $name );
-//$name chỉ str_replace('<script>', '', $name). Điều này chỉ loại bỏ chính xác chuỗi "<script>" chứ không loại bỏ </script>, không loại bỏ event attributes (onerror), không loại bỏ tag khác như <img> hay <svg onload=...>.
+$name = preg_replace( '/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', $name );
+//$name đã được xử lý bằng preg_replace để loại bỏ các chuỗi <script nhưng không chặn được các hướng tấn công XSS khác như event handler (onerror, onclick)
 # Alert img
 ![anh4](images/storedxss-alert.png).
