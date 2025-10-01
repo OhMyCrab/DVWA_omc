@@ -19,10 +19,15 @@ Trang web lấy giá trị từ tham số default trong URL và chèn trực ti�
 3.) PoC (step-by-step)
 
   1.Truy cập http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/default=English.
+  
   2.Dán payload <script>alert('hwllnah')</script> vào thanh địa chỉ -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=<script>alert('hwllnah')</script>
+  
   3.Nhấn Enter để load trang.
+  
   4.Quan sát: khi trang load sẽ hiện alert('hwllnah').
+  
   5.Kết quả PoC cho lỗ hổng Stored XSS: ![anh1](images/DOM_basedXSS_low.png).
+  
 4.) Payload tested
 
 <script>alert('hwllnah')</script>
