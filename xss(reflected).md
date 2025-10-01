@@ -21,9 +21,7 @@ Truyền payload <script>alert('hwllnah')</script> vào biến name, giá trị 
   
 5.) Phân tích source code
 
-$html.='<pre>Hello'.$_GET[ 'name' ].'</pre>';
-
-//$_GET['name'] lấy trực tiếp dữ liệu từ URL mà không xử lý gì cả.
+Tham số đầu vào được chèn trực tiếp vào trang HTML mà không được mã hoá (HTML-escaping), vì vậy payload <script>alert('hwllnah')</script> sẽ được phản chiếu và thực thi — đây là Reflected XSS (Low)
 
 # MEDIUM
 1.) Target
