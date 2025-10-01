@@ -1,6 +1,6 @@
-#XSS — Stored on /vulnerabilities/xss_s/
+# XSS — Stored on /vulnerabilities/xss_s/
 Alert ![anh1](images/stored-xss-alert.png).
-#LOW
+# LOW
 1.) Target
 
 Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/xss_s/?name=
@@ -24,4 +24,4 @@ Truyền payload <script>alert('hwll')</script> vào các tham số name và mes
 5.) Phân tích source code
 Code của lab Stored XSS level low lưu input người dùng thô (không escape) và render lại trực tiếp dẫn tới Stored XSS
 
-#MEDIUM
+# MEDIUM
