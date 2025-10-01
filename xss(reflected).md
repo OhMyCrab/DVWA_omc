@@ -17,6 +17,7 @@ Truyền payload <script>alert('hwllnah')</script> vào biến name, giá trị 
 ![anh1](images/reflected-xss-low.png).
 
 4.) Payload tested
+
 <script>alert('hwllnah')</script>
   
 5.) Phân tích source code
@@ -45,6 +46,7 @@ Khi thẻ không tìm thấy src thì onerror sẽ chạy JS.
 7. Kết quả PoC cho lỗ hổng Reflected XSS: ![anh2](images/reflected-xss-medium.png).
 
 4.) Payload tested
+
 <img src=x.png onerror=alert('hwllnah')>
 
 5.)Phân tích source code
@@ -71,6 +73,7 @@ Thay payload đã URL encode từ level medium vào high:%3Cimg%20src%3D%22x.png
 7. Kết quả PoC cho lỗ hổng Reflected XSS: ![anh3](images/reflected-xss-high.png).
 
 4.) Payload tested
+
 <img src=x.png onerror=alert('hwllnah')>
 
 5.) Phân tích source code 
