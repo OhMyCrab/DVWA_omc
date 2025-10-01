@@ -26,7 +26,71 @@ Trang web lấy giá trị từ tham số default trong URL và chèn trực ti�
   
   4.Quan sát: khi trang load sẽ hiện alert('hwllnah').
   
-  5.Kết quả PoC cho lỗ hổng Stored XSS: ![anh1](images/DOM_basedXSS_low.png).
+  5.Kết quả PoC cho lỗ hổng Stored XSS:
+  
+  ![anh1](images/DOM_basedXSS_low.png).
+  
+4.) Payload tested
+
+<script>alert('hwllnah')</script>
+# MEDIUM
+
+1.) Target
+
+Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/
+
+Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+
+Security level: medium
+
+2.) Tóm tắt
+
+Trang web lấy giá trị từ tham số default trong URL và chèn trực tiếp vào DOM bằng JavaScript. Nếu tham số này chứa payload độc hại, trình duyệt sẽ thực thi ngay trong ngữ cảnh trang mà không cần server lưu trữ hay thay đổi HTML gốc, dẫn tới DOM‑based XSS.
+
+3.) PoC (step-by-step)
+
+  1.Truy cập http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/default=English.
+  
+  2.Dán payload <script>alert('hwllnah')</script> vào thanh địa chỉ -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=English&<script>alert('hwllnah')</script>
+  
+  3.Nhấn Enter để load trang.
+  
+  4.Quan sát: khi trang load sẽ hiện alert('hwllnah').
+  
+  5.Kết quả PoC cho lỗ hổng Stored XSS:
+  
+  ![anh1](images/DOM_basedXSS_medium.png).
+  
+4.) Payload tested
+
+<script>alert('hwllnah')</script>
+# HIGH
+
+1.) Target
+
+Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/
+
+Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+
+Security level: high
+
+2.) Tóm tắt
+
+Trang web lấy giá trị từ tham số default trong URL và chèn trực tiếp vào DOM bằng JavaScript. Nếu tham số này chứa payload độc hại, trình duyệt sẽ thực thi ngay trong ngữ cảnh trang mà không cần server lưu trữ hay thay đổi HTML gốc, dẫn tới DOM‑based XSS.
+
+3.) PoC (step-by-step)
+
+  1.Truy cập http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/default=English.
+  
+  2.Dán payload <script>alert('hwllnah')</script> vào thanh địa chỉ -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=English&<script>alert('hwllnah')</script>
+  
+  3.Nhấn Enter để load trang.
+  
+  4.Quan sát: khi trang load sẽ hiện alert('hwllnah').
+  
+  5.Kết quả PoC cho lỗ hổng Stored XSS:
+  
+  ![anh1](images/DOM_basedXSS_high.png).
   
 4.) Payload tested
 
