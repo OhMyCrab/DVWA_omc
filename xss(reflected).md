@@ -1,4 +1,5 @@
 # XSS — Reflected on /vulnerabilities/xss_r/
+Alert ![anh1](images/reflectedxss-alert.png).
 # LOW
 1.) Target
 - Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/xss_r/?name=
