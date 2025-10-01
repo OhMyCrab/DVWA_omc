@@ -1,5 +1,4 @@
 # XSS — Reflected on /vulnerabilities/xss_r/
-Alert ![anh1](images/reflectedxss-alert.png).
 # LOW
 1.) Target
 - Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/xss_r/?name=
@@ -78,6 +77,10 @@ Thay payload đã URL encode từ level medium vào high:%3Cimg%20src%3D%22x.png
 
 source code có dòng: $name = preg_replace( '/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', $_GET[ 'name' ] );
 //$_GET['name'] đã được xử lý bằng preg_replace để loại bỏ các chuỗi <script> nhưng không chặn được các vector khác như event handler (onerror, onclick)
+
+# Alert 
+
+![anh1](images/reflectedxss-alert.png).
 
 # FIX BUG
 Dùng htmlspecialchars() để ngăn XSS, encode tất cả ký tự HTML đặc biệt trước khi hiển thị
