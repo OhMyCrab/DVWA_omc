@@ -1,4 +1,4 @@
-# DOM based XSS on /vulnerabilities/xss_d/
+# DOM based XSS on /vulnerabilities/xss_d/ ( Sửa lại poc phần medium và high )
 1. DOM được tạo bằng đối tượng được gọi là document, chứa một thuộc tính được gọi là URL. Khi trình phân tích cú pháp đến mã Javascript, nó sẽ thực thi mã đó và sửa đổi HTML thô của trang.
 2. Bản thân trang web(response HTTP) không thay đổi, nhưng mã phía client có trong trang web lại thực thi khác đi do những sửa đổi độc hại đã xảy ra trong môi trường DOM.
 
@@ -20,7 +20,8 @@ Trang web lấy giá trị từ tham số default trong URL và chèn trực ti�
 
   1.Truy cập http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/default=English.
   
-  2.Dán payload <script>alert('hwllnah')</script> vào thanh địa chỉ -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=<script>alert('hwllnah')</script>
+  2.Dán payload <script>alert('hwllnah')</script> vào thanh địa chỉ
+  -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=<script>alert('hwllnah')</script>
   
   3.Nhấn Enter để load trang.
   
@@ -49,9 +50,10 @@ Trang web lấy giá trị từ tham số default trong URL và chèn trực ti�
 
 3.) PoC (step-by-step)
 
-  1.Truy cập http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/default=English.
+  1.Truy cập http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/default=English
   
-  2.Dán payload <script>alert('hwllnah')</script> vào thanh địa chỉ -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=English&<script>alert('hwllnah')</script>
+  2.Dán payload <script>alert('hwllnah')</script> vào thanh địa chỉ
+  -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=English&<script>alert('hwllnah')</script>
   
   3.Nhấn Enter để load trang.
   
@@ -64,6 +66,9 @@ Trang web lấy giá trị từ tham số default trong URL và chèn trực ti�
 4.) Payload tested
 
 <script>alert('hwllnah')</script>
+
+5.) Phân tích source code
+
 # HIGH
 
 1.) Target
@@ -82,7 +87,8 @@ Trang web lấy giá trị từ tham số default trong URL và chèn trực ti�
 
   1.Truy cập http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/default=English.
   
-  2.Dán payload <script>alert('hwllnah')</script> vào thanh địa chỉ -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=English&<script>alert('hwllnah')</script>
+  2.Dán payload <script>alert('hwllnah')</script> vào thanh địa chỉ
+  -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=English&<script>alert('hwllnah')</script>
   
   3.Nhấn Enter để load trang.
   
@@ -95,3 +101,7 @@ Trang web lấy giá trị từ tham số default trong URL và chèn trực ti�
 4.) Payload tested
 
 <script>alert('hwllnah')</script>
+
+5.) Phân tích source code
+  
+  
