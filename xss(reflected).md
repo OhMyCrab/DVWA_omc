@@ -21,7 +21,9 @@ Truyền payload <script>alert('hwllnah')</script> vào biến name, giá trị 
   
 5.) Phân tích source code
 
-$html.='<pre>Hello '.$_GET[ 'name' ].'</pre>'; //$_GET['name'] lấy trực tiếp dữ liệu từ URL mà không xử lý gì cả.
+$html.='<pre>Hello'.$_GET[ 'name' ].'</pre>';
+
+//$_GET['name'] lấy trực tiếp dữ liệu từ URL mà không xử lý gì cả.
 
 # MEDIUM
 1.) Target
