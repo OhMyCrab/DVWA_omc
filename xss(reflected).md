@@ -21,7 +21,7 @@ Truyền payload <script>alert('hwllnah')</script> vào biến name, giá trị 
   
 5.) Phân tích source code
 
-Tham số đầu vào được chèn trực tiếp vào trang HTML mà không được mã hoá (HTML-escaping), vì vậy payload <script>alert('hwllnah')</script> sẽ được phản chiếu và thực thi — đây là Reflected XSS (Low)
+Tham số đầu vào được chèn trực tiếp vào trang HTML mà không được mã hoá (HTML-escaping), vì vậy payload <script>alert('hwllnah')</script> sẽ được phản chiếu và thực thi.
 
 # MEDIUM
 1.) Target
