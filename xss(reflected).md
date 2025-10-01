@@ -83,7 +83,7 @@ Thay payload đã URL encode từ level medium vào high:%3Cimg%20src%3D%22x.png
 
 $name = preg_replace( '/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', $_GET[ 'name' ] );
 
-//$_GET['name'] đã được xử lý bằng preg_replace để loại bỏ các chuỗi <script> nhưng không chặn được các vector khác như event handler (onerror, onclick)
+//$_GET['name'] đã được xử lý bằng preg_replace để loại bỏ các chuỗi <script nhưng không chặn được các vector khác như event handler (onerror, onclick)
 
 # Alert 
 
