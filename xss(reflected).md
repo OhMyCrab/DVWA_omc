@@ -51,7 +51,8 @@ Khi thẻ không tìm thấy src thì onerror sẽ chạy JS.
 
 5.)Phân tích source code
 
-source code có dòng: $name = str_replace( '<script>', '', $_GET[ 'name' ] );
+$name = str_replace( '<script>', '', $_GET[ 'name' ] );
+
 //$_GET[ 'name' ] đã có xử lý chặn <script>. Cách này chỉ loại bỏ chuỗi <script> đúng chuẩn, nhưng không chặn các biến thể viết hoa, có khoảng trắng, attribute khác, hoặc các event handler như onerror/onclick.
 
 # HIGH
@@ -76,7 +77,8 @@ Thay payload đã URL encode từ level medium vào high:%3Cimg%20src%3D%22x.png
 
 5.) Phân tích source code 
 
-source code có dòng: $name = preg_replace( '/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', $_GET[ 'name' ] );
+$name = preg_replace( '/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', $_GET[ 'name' ] );
+
 //$_GET['name'] đã được xử lý bằng preg_replace để loại bỏ các chuỗi <script> nhưng không chặn được các vector khác như event handler (onerror, onclick)
 
 # Alert 
