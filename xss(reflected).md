@@ -19,6 +19,7 @@ Truyền payload <script>alert('hwllnah')</script> vào biến name, giá trị 
 4.) Payload tested
 
 <script>alert('hwllnah')</script>
+
   
 5.) Phân tích source code
 
@@ -49,6 +50,7 @@ Khi thẻ không tìm thấy src thì onerror sẽ chạy JS.
 
 <img src=x.png onerror=alert('hwllnah')>
 
+
 5.)Phân tích source code
 
 $name = str_replace( '<script>', '', $_GET[ 'name' ] );
@@ -75,6 +77,7 @@ Thay payload đã URL encode từ level medium vào high:%3Cimg%20src%3D%22x.png
 4.) Payload tested
 
 <img src=x.png onerror=alert('hwllnah')>
+
 
 5.) Phân tích source code 
 
