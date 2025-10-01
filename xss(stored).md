@@ -24,4 +24,5 @@ Truyền payload <script>alert('hwll')</script> vào các tham số name và mes
 
 # MEDIUM
 # HIGH
-Alert ![anh1](images/storedxss-alert.png).
+# Alert img
+![anh1](images/storedxss-alert.png).
