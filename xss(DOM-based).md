@@ -7,7 +7,9 @@
 1.) Target
 
 Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/
+
 Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+
 Security level: low
 
 2.) Tóm tắt
