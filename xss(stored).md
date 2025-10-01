@@ -14,7 +14,7 @@ Truyền payload <script>alert('hwll')</script> vào các tham số name và mes
   2. Thay đổi giá trị txtName và mtxMessage thành payload: <script>alert('hwll')</script>.
   3. Forward request. Khi load trang, alert('hwll') xuất hiện (xuất hiện 2 lần vì cả 2 trường đều chứa payload).
   4. Kết quả PoC cho lỗ hổng Stored XSS:
-  ![anh2](images/stored-xss-low.png).
+  ![anh1](images/stored-xss-low.png).
 
 4.) Payload tested
 <script>alert('hwll')</script>
@@ -48,4 +48,4 @@ Truyền payload <script>alert('hwll')</script> vào các tham số name và mes
 - Hai tham số name và message được lưu thô vào database và chèn trực tiếp vào trang HTML khi hiển thị, không có bước HTML-escaping hay lọc input. Do đó payload <script>alert('hwll')</script> sẽ được lưu vào DB và thực thi trên trình duyệt của người dùng (Stored XSS)
 # HIGH
 # Alert img
-![anh1](images/storedxss-alert.png).
+![anh3](images/storedxss-alert.png).
