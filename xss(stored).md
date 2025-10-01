@@ -77,6 +77,7 @@ Truyền payload <script>alert('hwll')</script> vào các trường name và mes
 <img src=x.png onerror=alert('hwll')>
 
 5.) Phân tích source code
+
 $name = str_replace( '<script>', '', $name );
 //$name chỉ str_replace('<script>', '', $name). Điều này chỉ loại bỏ chính xác chuỗi "<script>" chứ không loại bỏ </script>, không loại bỏ event attributes (onerror), không loại bỏ tag khác như <img> hay <svg onload=...>.
 # Alert img
