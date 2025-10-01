@@ -1,5 +1,5 @@
 # XSS — Stored on /vulnerabilities/xss_s/
-Alert ![anh1](images/stored-xss-alert.png).
+Alert ![anh1](images/storedxss-alert.png).
 # LOW
 1.) Target
 - Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/xss_s/?name=
