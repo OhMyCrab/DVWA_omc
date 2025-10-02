@@ -1,4 +1,80 @@
+# SQL Injection on /vulnerabilities/sqli/
+Mục tiêu: khai thác SQL Injection để làm trang trả về tất cả bản ghi (all users) thay vì chỉ 1 user.
+LOW
+1.) Target
 
-Low: code ghép $id trong dấu nháy (WHERE user_id = '$id') → payload bắt đầu bằng dấu nháy (' OR 1=1 --) sẽ đóng dấu nháy rồi chèn OR 1=1 → trả về mọi hàng.
+Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#
+Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+Security level: low
+2.) Tóm tắt POC
 
-Medium: dev đã bỏ dấu nháy quanh $id (ví dụ WHERE user_id = $id;) và có thể dùng mysqli_real_escape_string() → payload có dấu nháy bị escape hoặc gây lỗi. Thay vì dùng dấu nháy, attacker phải chèn một biểu thức số hợp lệ, ví dụ 1 OR 1=1 --, để câu SQL sau khi ghép trở thành WHERE user_id = 1 OR 1=1 -- → luôn đúng → trả về mọi hàng.
+"Payload `'OR 1=1-- -` là một khai thác làm điều kiện WHERE luôn đúng và vì trang trả dữ liệu trực tiếp nên đây là in‑band SQL Injection.
+
+3.) PoC (step-by-step)
+
+1. Truy cập `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#`
+2. Nhập vào ô text payload `'OR 1=1-- -`.
+3. Nhấn nút submit -> trang trả về tất cả bản ghi
+4. Kết quả PoC cho lỗ hổng Reflected XSS: ![anh1](images/SQL-injection-low.png)
+4.) Payload tested
+
+`'OR 1=1-- -`
+
+5.) Phân tích source code
+`$query  = "SELECT first_name, last_name FROM users WHERE user_id = '$id';";`
+- code ghép $id trong dấu nháy (WHERE user_id = '$id') → payload bắt đầu bằng dấu nháy (`'OR 1=1 -- -`) sẽ đóng dấu nháy rồi chèn OR 1=1 → trả về mọi hàng.
+
+# MEDIUM:
+1.) Target
+
+Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#
+Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+Security level: low
+2.) Tóm tắt POC
+
+Chèn payload làm điều kiện WHERE luôn đúng `OR 1=1`  vào tham số id → server trả về toàn bộ bản ghi, chứng minh tồn tại SQL Injection.
+
+3.) PoC (step-by-step)
+
+1. Intercept request `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/session-input.php#`
+2. Thêm vào sau id=1 payload `OR 1=1`.
+3. Nhấn nút submit -> trang trả về tất cả bản ghi
+4. Kết quả PoC cho lỗ hổng Reflected XSS: ![anh1](images/SQL-injection-medium.png)
+4.) Payload tested
+
+`OR 1=1`
+
+5.) Phân tích source code
+
+	`$id = mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $id);
+	switch ($_DVWA['SQLI_DB']) {
+		case MYSQL:
+			$query  = "SELECT first_name, last_name FROM users WHERE user_id = $id;";`
+      
+- Dev đã bỏ dấu nháy quanh $id (WHERE user_id = $id;) và dùng mysqli_real_escape_string() → payload có dấu nháy bị escape hoặc gây lỗi. Thay vì dùng dấu nháy thì chèn một biểu thức số hợp lệ `OR 1=1`, để câu SQL sau khi ghép trở thành WHERE user_id = 1 OR 1=1 -- → luôn đúng → trả về mọi hàng.
+
+# HIGH
+1.) Target
+
+Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#`
+Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+Security level: low
+2.) Tóm tắt POC
+
+"Payload `'OR 1=1-- -` là một khai thác làm điều kiện WHERE luôn đúng và vì trang trả dữ liệu trực tiếp nên đây là in‑band SQL Injection.
+
+3.) PoC (step-by-step)
+
+1. Truy cập `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/session-input.php#`
+2. Nhập vào ô text payload `'OR 1=1-- -`.
+3. Nhấn nút submit -> trang trả về tất cả bản ghi
+4. Kết quả PoC cho lỗ hổng Reflected XSS: ![anh1](images/SQL-injection-high.png)
+4.) Payload tested
+
+`'OR 1=1-- -`
+
+5.) Phân tích source code
+
+`$query  = "SELECT first_name, last_name FROM users WHERE user_id = '$id' LIMIT 1;";`
+
+- Code vẫn ghép $id trong dấu nháy (WHERE user_id = '$id') → payload bắt đầu bằng dấu nháy ('OR 1=1 -- -) sẽ đóng dấu nháy rồi chèn OR 1=1 kèm comment hết các lệnh đằng sau(LIMIT 1) → trả về mọi hàng.
