@@ -1,21 +1,26 @@
 # SQL Injection on /vulnerabilities/sqli/
 Mục tiêu: khai thác SQL Injection để làm trang trả về tất cả bản ghi (all users) thay vì chỉ 1 user.
-LOW
+# LOW
 1.) Target
 
 Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#
+
 Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+
 Security level: low
+
 2.) Tóm tắt POC
 
-"Payload `'OR 1=1-- -` là một khai thác làm điều kiện WHERE luôn đúng và vì trang trả dữ liệu trực tiếp nên đây là in‑band SQL Injection.
+"Payload `'OR 1=1-- -` làm điều kiện WHERE luôn đúng và vì trang trả dữ liệu trực tiếp nên đây là in‑band SQL Injection.
 
 3.) PoC (step-by-step)
 
 1. Truy cập `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#`
 2. Nhập vào ô text payload `'OR 1=1-- -`.
 3. Nhấn nút submit -> trang trả về tất cả bản ghi
-4. Kết quả PoC cho lỗ hổng Reflected XSS: ![anh1](images/SQL-injection-low.png)
+4. Kết quả PoC cho lỗ hổng in-band SQL Injection-low:
+![anh1](images/SQL-injection-low.png)
+
 4.) Payload tested
 
 `'OR 1=1-- -`
@@ -28,8 +33,11 @@ Security level: low
 1.) Target
 
 Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#
+
 Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+
 Security level: low
+
 2.) Tóm tắt POC
 
 Chèn payload làm điều kiện WHERE luôn đúng `OR 1=1`  vào tham số id → server trả về toàn bộ bản ghi, chứng minh tồn tại SQL Injection.
@@ -39,7 +47,9 @@ Chèn payload làm điều kiện WHERE luôn đúng `OR 1=1`  vào tham số id
 1. Intercept request `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/session-input.php#`
 2. Thêm vào sau id=1 payload `OR 1=1`.
 3. Nhấn nút submit -> trang trả về tất cả bản ghi
-4. Kết quả PoC cho lỗ hổng Reflected XSS: ![anh1](images/SQL-injection-medium.png)
+4. Kết quả PoC cho lỗ hổng  in-band SQL Injection-medium:
+![anh2](images/SQL-injection-medium.png)
+
 4.) Payload tested
 
 `OR 1=1`
@@ -57,8 +67,11 @@ Chèn payload làm điều kiện WHERE luôn đúng `OR 1=1`  vào tham số id
 1.) Target
 
 Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#`
+
 Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+
 Security level: low
+
 2.) Tóm tắt POC
 
 "Payload `'OR 1=1-- -` là một khai thác làm điều kiện WHERE luôn đúng và vì trang trả dữ liệu trực tiếp nên đây là in‑band SQL Injection.
@@ -68,7 +81,9 @@ Security level: low
 1. Truy cập `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/session-input.php#`
 2. Nhập vào ô text payload `'OR 1=1-- -`.
 3. Nhấn nút submit -> trang trả về tất cả bản ghi
-4. Kết quả PoC cho lỗ hổng Reflected XSS: ![anh1](images/SQL-injection-high.png)
+4. Kết quả PoC cho lỗ hổng  in-band SQL Injection-high:
+![anh3](images/SQL-injection-high.png)
+
 4.) Payload tested
 
 `'OR 1=1-- -`
