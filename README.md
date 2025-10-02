@@ -7,6 +7,7 @@ DVWA:
 - [x] Recon (Burp, nmap)
 - [x] XSS PoC
 - [x] SQL Injection
+
 PortSwigger:
 - [ ] XSS
 - [ ] SQL Injection
