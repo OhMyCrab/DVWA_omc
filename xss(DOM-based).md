@@ -20,8 +20,8 @@ Trang web lấy giá trị từ tham số default trong URL và chèn trực ti�
 
   1.Truy cập http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/default=English.
   
-  2.Dán payload <script>alert('hwllnah')</script> vào thanh địa chỉ
-  -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=<script>alert('hwllnah')</script>
+  2.Dán payload `<script>alert('hwllnah')</script>` vào thanh địa chỉ
+  -> `http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=<script>alert('hwllnah')</script>`
   
   3.Nhấn Enter để load trang.
   
@@ -33,7 +33,7 @@ Trang web lấy giá trị từ tham số default trong URL và chèn trực ti�
   
 4.) Payload tested
 
-<script>alert('hwllnah')</script>
+`<script>alert('hwllnah')</script>`
 # MEDIUM
 
 1.) Target
@@ -52,34 +52,33 @@ Trang web lấy giá trị từ tham số default trong URL và chèn trực ti�
 
   1. Truy cập http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/default=English
   
-  2. Dán payload <script>alert('hwllnah')</script> vào thanh địa chỉ
+  2. Dán payload `<script>alert('hwllnah')</script>` vào thanh địa chỉ
   -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=<script>alert('hwllnah')</script>
   
   3.Nhấn Enter để load trang và quan sát thấy khi trang load không có gì xảy ra.
   
-  4. Dán lại payload <script>alert('hwllnah')</script> vào thanh địa chỉ, ngăn cách payload với tham số default bằng & (& là ký tự phân tách tham số trong url)
+  4. Dán lại payload `<script>alert('hwllnah')</script>` vào thanh địa chỉ, ngăn cách payload với tham số default bằng & (& là ký tự phân tách tham số trong url)
      
-  -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=English&<script>alert('hwllnah')</script>
+  -> `http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=English&<script>alert('hwllnah')</script>`
   
   5. Nhấn Enter để load trang và quan sát: khi trang load đã hiện alert('hwllnah').
 
   6. Kết quả PoC cho lỗ hổng Stored XSS mức medium:
   
-  ![anh1](images/DOM_basedXSS_medium.png).
+  ![anh2](images/DOM_basedXSS_medium.png).
   
 4.) Payload tested
 
-<script>alert('hwllnah')</script>
+`<script>alert('hwllnah')</script>`
 
 5.) Phân tích source code
 
-if (stripos ($default, "<script") !== false) {
+`if (stripos ($default, "<script") !== false) {
   header ("location: ?default=English"); 
   exit; 
-}
+}`
 
-stripos($default, "<script") không đủ vì nó chỉ phát hiện đúng khi chuỗi chứa chính xác <script (chữ hoa/chữ thường đã được xử lý bởi stripos).
-không bảo vệ trước tham số lạ (ví dụ ?default=English&<script>...), vì check chỉ nhìn $_GET['default'].
+stripos($default, "<script") không đủ vì nó chỉ phát hiện đúng khi chuỗi chứa chính xác <script (chữ hoa/chữ thường đã được xử lý bởi stripos), không bảo vệ trước tham số lạ (ví dụ ?default=English&<script>...), vì check chỉ nhìn $_GET['default'].
 
 # HIGH
 
@@ -99,14 +98,14 @@ Trang web lấy giá trị từ tham số default trong URL và chèn trực ti�
 
   1. Truy cập http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/default=English
   
-  2. Dán payload <script>alert('hwllnah')</script> vào thanh địa chỉ
-  -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=<script>alert('hwllnah')</script>
+  2. Dán payload `<script>alert('hwllnah')</script>` vào thanh địa chỉ
+  -> `http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=<script>alert('hwllnah')</script>`
   
   3.Nhấn Enter để load trang và quan sát thấy khi trang load không có gì xảy ra.
   
-  4. Dán lại payload <script>alert('hwllnah')</script> vào thanh địa chỉ, ngăn cách payload với tham số default bằng & (& là ký tự phân tách tham số trong url)
+  4. Dán lại payload `<script>alert('hwllnah')</script>` vào thanh địa chỉ, ngăn cách payload với tham số default bằng & (& là ký tự phân tách tham số trong url)
      
-  -> http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=English&<script>alert('hwllnah')</script>
+  -> `http://127.0.0.1/DVWA-master/vulnerabilities/xss_d/?default=English&<script>alert('hwllnah')</script>`
   
   5. Nhấn Enter để load trang và quan sát: khi trang load đã hiện alert('hwllnah').
    
@@ -116,7 +115,7 @@ Trang web lấy giá trị từ tham số default trong URL và chèn trực ti�
   
 4.) Payload tested
 
-<script>alert('hwllnah')</script>
+`<script>alert('hwllnah')</script>`
 
 5.) Phân tích source code
 
