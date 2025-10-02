@@ -1,4 +1,4 @@
-# DOM based XSS on /vulnerabilities/xss_d/ ( Sửa lại poc phần medium và high )
+# DOM based XSS on /vulnerabilities/xss_d/
 1. DOM được tạo bằng đối tượng được gọi là document, chứa một thuộc tính được gọi là URL. Khi trình phân tích cú pháp đến mã Javascript, nó sẽ thực thi mã đó và sửa đổi HTML thô của trang.
 2. Bản thân trang web(response HTTP) không thay đổi, nhưng mã phía client có trong trang web lại thực thi khác đi do những sửa đổi độc hại đã xảy ra trong môi trường DOM.
 
