@@ -7,7 +7,7 @@
 
 2.) Tóm tắt
 
-Truyền payload <script>alert('hwllnah')</script> vào biến name, giá trị này được chèn thô vào trang mà không được escape dẫn tới thực thi mã JavaScript phía client.
+Truyền payload `<script>alert('hwllnah')</script>` vào biến name, giá trị này được chèn thô vào trang mà không được escape dẫn tới thực thi mã JavaScript phía client.
 
 3.) PoC (step-by-step)
 1. Intercept request `/vulnerabilities/xss_r/?name=aaa`.
@@ -18,12 +18,12 @@ Truyền payload <script>alert('hwllnah')</script> vào biến name, giá trị 
 
 4.) Payload tested
 
-<script>alert('hwllnah')</script>
+`<script>alert('hwllnah')</script>`
 
   
 5.) Phân tích source code
 
-Tham số đầu vào được chèn trực tiếp vào trang HTML mà không được mã hoá (HTML-escaping), vì vậy payload <script>alert('hwllnah')</script> sẽ được phản chiếu và thực thi.
+Tham số đầu vào được chèn trực tiếp vào trang HTML mà không được mã hoá (HTML-escaping), vì vậy payload `<script>alert('hwllnah')</script>` sẽ được phản chiếu và thực thi.
 
 # MEDIUM
 1.) Target
@@ -42,18 +42,18 @@ Khi thẻ không tìm thấy src thì onerror sẽ chạy JS.
 2. thay đổi param `aaa` với payload: `<script>alert('hwllnah')</script>`.
 3. Forward request → mở Response → Raw / View Source. Do server strip thẻ <script> (thẻ mở bị xóa) nên payload không chạy.
 4. Thử payload bypass (không dùng <script>): `<img src=x onerror=alert('hwllnah')>` đã URL encode.
-5. URL-encoded: %3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E
+5. URL-encoded: `%3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E`
 6. Forward request → alert hwllnah xuất hiện trên browser.
 7. Kết quả PoC cho lỗ hổng Reflected XSS: ![anh2](images/reflected-xss-medium.png).
 
 4.) Payload tested
 
-<img src=x.png onerror=alert('hwllnah')>
+`<img src=x.png onerror=alert('hwllnah')>`
 
 
 5.)Phân tích source code
 
-$name = str_replace( '<script>', '', $_GET[ 'name' ] );
+`$name = str_replace( '<script>', '', $_GET[ 'name' ] );`
 
 //$_GET[ 'name' ] đã có xử lý chặn <script>. Cách này chỉ loại bỏ chuỗi <script> đúng chuẩn, nhưng không chặn các biến thể viết hoa, có khoảng trắng, attribute khác, hoặc các event handler như onerror/onclick.
 
@@ -65,29 +65,27 @@ $name = str_replace( '<script>', '', $_GET[ 'name' ] );
 
 2.) Tóm tắt
 
-Thay payload đã URL encode từ level medium vào high:%3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E. vì không tìm thấy src nên onerror sẽ chạy JS.
+Thay payload đã URL encode từ level medium vào high:`%3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E`, Vì không tìm thấy src nên onerror sẽ chạy JS.
 
 3.) PoC (step-by-step)
 1. Intercept request `/vulnerabilities/xss_r/?name=aaa`.
 2. thay đổi param `aaa` với payload: `<img src=x onerror=alert('hwllnah')>` đã URL encode.
-5. URL-encoded: %3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E
+5. URL-encoded: `%3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E`
 6. Forward request → alert hwllnah xuất hiện trên browser.
 7. Kết quả PoC cho lỗ hổng Reflected XSS: ![anh3](images/reflected-xss-high.png).
 
 4.) Payload tested
 
-<img src=x.png onerror=alert('hwllnah')>
+`<img src=x.png onerror=alert('hwllnah')>`
 
 
 5.) Phân tích source code 
 
-$name = preg_replace( '/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', $_GET[ 'name' ] );
+`$name = preg_replace( '/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', $_GET[ 'name' ] );`
 
 //$_GET['name'] đã được xử lý bằng preg_replace để loại bỏ các chuỗi <script nhưng không chặn được các vector khác như event handler (onerror, onclick)
 
 # Alert 
 
-![anh1](images/reflectedxss-alert.png).
+![anh4](images/reflectedxss-alert.png).
 
-# FIX BUG
-Dùng htmlspecialchars() để ngăn XSS, encode tất cả ký tự HTML đặc biệt trước khi hiển thị
