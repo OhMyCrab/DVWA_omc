@@ -59,8 +59,8 @@ Payload `AND SLEEP(10)-- -` chèn payload làm delay phía DB (SLEEP) để quan
 6. Hiển thị "There was an error" → có thể id không nằm trong dấu nào cả
 7. Truyền payload `AND SLEEP(10)-- -` vào sau số 1 của tham số id
 8. Response load 10s → blind SQL
-9. Kết quả PoC cho lỗ hổng blind SQL Injection-low:
-![anh1](images/blindSQL-injection-low.png)
+9. Kết quả PoC cho lỗ hổng blind SQL Injection-medium:
+![anh1](images/blindSQL-injection-medium.png)
 
 4.) Payload tested
 
@@ -77,11 +77,11 @@ Payload `AND SLEEP(10)-- -` chèn payload làm delay phía DB (SLEEP) để quan
 # HIGH
 1.) Target
 
-Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#`
+Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli_blind/cookie-input.php#`
 
 Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: low
+Security level: high
 
 2.) Tóm tắt POC
 
@@ -89,11 +89,14 @@ Payload `'OR 1=1-- -` là một khai thác làm điều kiện WHERE luôn đún
 
 3.) PoC (step-by-step)
 
-1. Truy cập `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/session-input.php#`
-2. Nhập vào ô text payload `'OR 1=1-- -`.
-3. Nhấn nút submit -> trang trả về tất cả bản ghi
-4. Kết quả PoC cho lỗ hổng  in-band SQL Injection-high:
-![anh3](images/SQL-injection-high.png)
+1. Truy cập `http://127.0.0.1/DVWA-master/vulnerabilities/sqli_blind/cookie-input.php#`
+2. Tại ô Cookie id set nhập 1 và nhấn Submit, quan sát response trả về → hiển thị "User ID exists in the database."
+3. Nhập -100 và nhấn submit, quan sát response → hiển thị "User ID is MISSING from the database."
+ → Nếu đúng sẽ hiển thị "User ID exists in the database.", sai sẽ hiển thị "User ID is MISSING from the database."
+4. Thử payload  `'OR 1=1-- -` sau -100
+5. Nhấn nút submit -> trang hiển thị "User ID exists in the database." -> blindSQL - boolean-based
+6. Kết quả PoC cho lỗ hổng  blind SQL Injection-high:
+![anh3](images/blindSQL-injection-high.png)
 
 4.) Payload tested
 
@@ -101,7 +104,17 @@ Payload `'OR 1=1-- -` là một khai thác làm điều kiện WHERE luôn đún
 
 5.) Phân tích source code
 
-`$query  = "SELECT first_name, last_name FROM users WHERE user_id = '$id' LIMIT 1;";`
+	$id = $_COOKIE[ 'id' ];
+	$exists = false;
 
-- Code vẫn ghép $id trong dấu nháy (WHERE user_id = '$id') → payload bắt đầu bằng dấu nháy ('OR 1=1 -- -) sẽ đóng dấu nháy rồi chèn OR 1=1 kèm comment hết các lệnh đằng sau(LIMIT 1) → trả về mọi hàng.
-
+	switch ($_DVWA['SQLI_DB']) {
+		case MYSQL:
+			// Check database
+			$query  = "SELECT first_name, last_name FROM users WHERE user_id = '$id' LIMIT 1;";
+			try {
+				$result = mysqli_query($GLOBALS["___mysqli_ston"],  $query ); // Removed 'or die' to suppress mysql errors
+			} catch (Exception $e) {
+				$result = false;
+			}
+   
+$id được ghép vào câu truy vấn trong dấu nháy: WHERE user_id = '$id'. Nếu truyền payload bắt đầu bằng dấu nháy (ví dụ: -100' OR 1=1-- ) thì payload sẽ đóng chuỗi, chèn OR 1=1 (luôn đúng) và dùng -- để comment phần còn lại (ví dụ LIMIT 1), dẫn tới ứng dụng hiển thị "User ID exists in the database." → xác nhận boolean-based SQL Injection.
