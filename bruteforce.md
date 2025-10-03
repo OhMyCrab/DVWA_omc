@@ -1,6 +1,7 @@
 # Bruteforce /vulnerabilities/xss_s/
 # LOW/MEDIUM/HIGH
-mục tiêu: Bruteforce mật khẩu của admin
+- Mục tiêu: Bruteforce mật khẩu của admin
+
 1.) Target
 - Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/brute/?username=admin&password=guest&Login=Login#`
 - Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
