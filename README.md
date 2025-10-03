@@ -6,7 +6,7 @@ DVWA:
 - [x] Build DVWA local (no Docker)
 - [x] XSS PoC
 - [x] SQL Injection
-- [ ] Brute force
+- [x] Brute force
 - [ ] Authorisation bypass
 - [ ] Week session id
 - [ ] Insecure captcha
