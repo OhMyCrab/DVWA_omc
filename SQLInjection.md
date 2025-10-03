@@ -36,7 +36,7 @@ Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submi
 
 Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: low
+Security level: medium
 
 2.) Tóm tắt POC
 
@@ -61,7 +61,7 @@ Chèn payload làm điều kiện WHERE luôn đúng `OR 1=1`  vào tham số id
 		case MYSQL:
 			$query  = "SELECT first_name, last_name FROM users WHERE user_id = $id;";`
       
-- Dev đã bỏ dấu nháy quanh $id (WHERE user_id = $id;) và dùng mysqli_real_escape_string() → payload có dấu nháy bị escape hoặc gây lỗi. Thay vì dùng dấu nháy thì chèn một biểu thức số hợp lệ `OR 1=1`, để câu SQL sau khi ghép trở thành WHERE user_id = 1 OR 1=1 -- → luôn đúng → trả về mọi hàng.
+- Dev đã bỏ dấu nháy quanh $id (WHERE user_id = $id;) và dùng mysqli_real_escape_string() → payload có dấu nháy bị escape hoặc gây lỗi. Thay vì dùng dấu nháy thì chèn một biểu thức số hợp lệ `OR 1=1`, để câu SQL sau khi ghép trở thành WHERE user_id = 1 OR 1=1 → luôn đúng → trả về mọi hàng.
 
 # HIGH
 1.) Target
@@ -70,7 +70,7 @@ Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Subm
 
 Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: low
+Security level: high
 
 2.) Tóm tắt POC
 
