@@ -24,11 +24,17 @@ Security level: low
 
 4.) Payload tested
 
-`'OR 1=1-- -`
+`'AND SLEEP(10)-- -`
 
 5.) Phân tích source code
-`$query  = "SELECT first_name, last_name FROM users WHERE user_id = '$id';";`
-- code ghép $id trong dấu nháy (WHERE user_id = '$id') → payload bắt đầu bằng dấu nháy (`'OR 1=1 -- -`) sẽ đóng dấu nháy rồi chèn OR 1=1 → trả về mọi hàng.
+`$id = $_GET[ 'id' ];`
+`$query  = "SELECT first_name, last_name FROM users WHERE user_id = '$id';"`
+
+- $id được ghép trực tiếp vào chuỗi SQL trong dấu nháy đơn:
+
+`WHERE user_id = '$id';`
+
+Vì $id đến từ input GET nên attacker có thể chèn payload như `'AND SLEEP(10)-- -` để thực hiện time-based blind SQLi.
 
 # MEDIUM:
 1.) Target
