@@ -17,4 +17,18 @@
   3. Chọn attack type = Sniper; Load Payload configuration: dùng wordlist(500-worst-passwords.txt).
   4. Add Grep - Match dòng Username and/or password incorrect.
   5. Quan sát cột Username and/or password incorrect(hoặc cột length) → thấy dòng khác thường → password đúng
-  6. PoC ![anh1](images/brute-force.png).
+  6. Kết quả PoC cho lỗ hổng Brute-force:
+  
+  ![anh1](images/bruteforce.png).
+
+4.) Phân tích source code
+- Low level — login thất bại
+`$html .= "<pre><br />Username and/or password incorrect.</pre>";`
+
+- Medium — delay cố định, sau khi kiểm tra DB nhưng login thất bại
+`sleep(2); // dừng 2 giây để làm chậm brute-force
+$html .= "<pre><br />Username and/or password incorrect.</pre>";`
+
+- High — delay ngẫu nhiên, sau khi kiểm tra DB nhưng login thất bại
+`sleep( rand(0, 3) ); // delay ngẫu nhiên 0–3 giây, khó đo lường timing
+$html .= "<pre><br />Username and/or password incorrect.</pre>";`
