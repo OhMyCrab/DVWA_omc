@@ -6,9 +6,7 @@ DVWA:
 - [x] Build DVWA local (no Docker)
 - [x] XSS PoC
 - [x] SQL Injection
-- [ ] Broken Authentication & Session
-
-PortSwigger:
-- [ ] XSS
-- [ ] SQL Injection
-- [ ] Broken Authentication & Session
+- [ ] Authorisation bypass
+- [ ] Brute force
+- [ ] Week session id
+- [ ] Insecure captcha
