@@ -29,6 +29,6 @@
 `sleep(2); // dừng 2 giây để làm chậm brute-force
 $html .= "<pre><br />Username and/or password incorrect.</pre>";`
 
-- High — delay ngẫu nhiên, sau khi kiểm tra DB nhưng login thất bại
+- High — delay ngẫu nhiên, sau khi kiểm tra DB nhưng login thất bại và có user_token
 `sleep( rand(0, 3) ); // delay ngẫu nhiên 0–3 giây, khó đo lường timing
 $html .= "<pre><br />Username and/or password incorrect.</pre>";`
