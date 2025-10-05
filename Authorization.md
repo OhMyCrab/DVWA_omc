@@ -18,7 +18,6 @@ Security level: low
 <img width="832" height="890" alt="image" src="https://github.com/user-attachments/assets/3e4cfa03-0375-4b86-9af7-efcb9832f792" />
 
 # MEDIUM
-
 1.) Target
 Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/authbypass/
 Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
@@ -28,7 +27,7 @@ Security level: medium
 Giao diện HTML bị khóa nhưng API (endpoint) get_user_data.php vẫn có thể được gọi trực tiếp, nếu API trả dữ liệu admin thì là authorization bypass.
 
 3.) Phân tích source code
-medium.php
+file medium.php
 
 `if (dvwaCurrentUser() != "admin") {
 	print "Unauthorised";
@@ -40,7 +39,7 @@ nếu (dvwaCurrentUser() không phải admin sẽ in ra "Unauthorised";
 
 response trả về là http_response_code(403);
 
-get_user_data.php
+file get_user_data.php
 
 `if ((dvwaSecurityLevelGet() == "high" || dvwaSecurityLevelGet() == "impossible") && dvwaCurrentUser() != "admin") {
 	print json_encode (array ("result" => "fail", "error" => "Access denied"));
@@ -56,42 +55,94 @@ file get_user_data.php kiểm tra phân quyền chỉ được thực hiện ở
 2. Mở Burp Proxy → Intercept.
 
 3. copy `/get_user_data.php` vào sau url `http://127.0.0.1/DVWA-master/vulnerabilities/authbypass`
-4. 
+
 `http://127.0.0.1/DVWA-master/vulnerabilities/authbypass/get_user_data.php`
 
-5. Send request. Quan sát response body. Response trả JSON / HTML chứa thông tin user (user_id, first_name, surname) → authorization bypass.
+4. Send request. Quan sát response body. Response trả JSON / HTML chứa thông tin user (user_id, first_name, surname) → authorization bypass.
 
-4.) Kết quả PoC cho lỗ hổng Authorization-medium
+5. Kết quả PoC cho lỗ hổng Authorization-medium
 <img width="789" height="176" alt="image" src="https://github.com/user-attachments/assets/7c25a984-c3f7-4005-ad3a-f3286bd2dad6" />
 
 # HIGH
-1.) Target
+1) Target
 
-Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#`
+Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/authbypass/
 
 Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
 Security level: high
 
-2.) Tóm tắt POC
+2) Tóm tắt POC
+Ở mức High, cả trang HTML lẫn API GET (get_user_data.php) đã bị khóa khi đăng nhập bằng user. Tuy nhiên, endpoint cập nhật change_user_details.php (POST) bị bỏ sót kiểm tra phân quyền → user thường có thể gửi POST JSON/form hợp lệ để chỉnh thông tin user khác. Nếu server chấp nhận và cập nhật mà không xác thực quyền → chỉnh sửa được tài khoản khác
 
-"Payload `'OR 1=1-- -` là một khai thác làm điều kiện WHERE luôn đúng và vì trang trả dữ liệu trực tiếp nên đây là in‑band SQL Injection.
+3) Phân tích source code (root cause)
+file high.php
+`if ((dvwaSecurityLevelGet() == "high" || dvwaSecurityLevelGet() == "impossible") && dvwaCurrentUser() != "admin") {
+	print json_encode (array ("result" => "fail", "error" => "Access denied"));
+	exit;
+}`
 
-3.) PoC (step-by-step)
+file change_user_details.php
+`if ($_SERVER['REQUEST_METHOD'] != "POST") {
+	$result = array (
+						"result" => "fail",
+						"error" => "Only POST requests are accepted"
+					);
+	echo json_encode($result);
+	exit;
+}`
 
-1. Truy cập `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/session-input.php#`
-2. Nhập vào ô text payload `'OR 1=1-- -`.
-3. Nhấn nút submit -> trang trả về tất cả bản ghi
-4. Kết quả PoC cho lỗ hổng  in-band SQL Injection-high:
-![anh3](images/SQL-injection-high.png)
+`try {
+	$json = file_get_contents('php://input');
+	$data = json_decode($json);
+	if (is_null ($data)) {
+		$result = array (
+							"result" => "fail",
+							"error" => 'Invalid format, expecting "{id: {user ID}, first_name: "{first name}", surname: "{surname}"}'
+						);
+		echo json_encode($result);
+		exit;
+	}
+} catch (Exception $e) {
+	$result = array (
+						"result" => "fail",
+						"error" => 'Invalid format, expecting \"{id: {user ID}, first_name: "{first name}", surname: "{surname}\"}'
+					);
+	echo json_encode($result);
+	exit;
+}`
+high.php chặn HTML cho user
 
-4.) Payload tested
+get_user_data.php kiểm tra phân quyền ở mức high/impossible (nên GET bị khóa ở high)
 
-`'OR 1=1-- -`
+change_user_details.php (handler cập nhật) đọc JSON từ php://input, nhưng không thực hiện check dvwaCurrentUser() / session role trước khi cập nhật DB → GET bị chặn nhưng POST vẫn cho phép cập nhật nếu payload hợp lệ.
 
-5.) Phân tích source code
+4) PoC (Step‑by‑step)
 
-`$query  = "SELECT first_name, last_name FROM users WHERE user_id = '$id' LIMIT 1;";`
+1. Đăng nhập DVWA bằng tài khoản gordonb / abc123
 
-- Code vẫn ghép $id trong dấu nháy (WHERE user_id = '$id') → payload bắt đầu bằng dấu nháy ('OR 1=1 -- -) sẽ đóng dấu nháy rồi chèn OR 1=1 kèm comment hết các lệnh đằng sau(LIMIT 1) → trả về mọi hàng.
+2. Bật Burp Proxy → Intercept
+
+3. Gửi request POST tới change_user_details.php
+
+4. Raw POST JSON:
+
+POST /DVWA-master/vulnerabilities/authbypass/change_user_details.php HTTP/1.1
+Host: 127.0.0.1
+Content-Type: application/json
+Cookie: PHPSESSID=<your-session-id>; security=high
+Content-Length: 56
+
+{"id":1,"first_name":"hwll","surname":"nah"}
+
+5. Send request. Quan sát response: trả về {"result":"ok"} → Authorization bypass
+
+Xác nhận thay đổi:
+
+Truy cập trang admin quan sát → id 1: first_name/surname đã đổi thành hwll/nah.
+
+6. Kết quả PoC cho lỗ hổng Authorization-high:
+<img width="725" height="557" alt="image" src="https://github.com/user-attachments/assets/03720773-8d43-4747-a009-8abc8fff89c4" />
+<img width="647" height="102" alt="image" src="https://github.com/user-attachments/assets/77f475d9-fe13-4ca4-9bdd-e586b6b8225b" />
+<img width="495" height="292" alt="image" src="https://github.com/user-attachments/assets/4e95c849-4584-46ae-bf5d-db6dd48cf74e" />
 
