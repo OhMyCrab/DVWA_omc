@@ -7,6 +7,6 @@ DVWA:
 - [x] XSS PoC
 - [x] SQL Injection
 - [x] Brute force
-- [ ] Authorisation bypass
+- [ ] Authorization bypass
 - [ ] Week session id
 - [ ] Insecure captcha
