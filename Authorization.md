@@ -48,7 +48,7 @@ file get_user_data.php
 
 file get_user_data.php kiểm tra phân quyền chỉ được thực hiện ở mức high và impossible, còn medium và low thì không → người dùng bình thường có thể sử dụng được chức năng này
 
-3.) PoC (step-by-step)
+4.) PoC (step-by-step)
 
 1. Đăng nhập DVWA bằng gordonb / abc123.
 
@@ -64,7 +64,7 @@ file get_user_data.php kiểm tra phân quyền chỉ được thực hiện ở
 <img width="789" height="176" alt="image" src="https://github.com/user-attachments/assets/7c25a984-c3f7-4005-ad3a-f3286bd2dad6" />
 
 # HIGH
-1) Target
+1.) Target
 
 Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/authbypass/
 
@@ -72,10 +72,10 @@ Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite 
 
 Security level: high
 
-2) Tóm tắt POC
+2.) Tóm tắt POC
 Ở mức High, cả trang HTML lẫn API GET (get_user_data.php) đã bị khóa khi đăng nhập bằng user. Tuy nhiên, endpoint cập nhật change_user_details.php (POST) bị bỏ sót kiểm tra phân quyền → user thường có thể gửi POST JSON/form hợp lệ để chỉnh thông tin user khác. Nếu server chấp nhận và cập nhật mà không xác thực quyền → chỉnh sửa được tài khoản khác
 
-3) Phân tích source code (root cause)
+3.) Phân tích source code (root cause)
 file high.php
 `if ((dvwaSecurityLevelGet() == "high" || dvwaSecurityLevelGet() == "impossible") && dvwaCurrentUser() != "admin") {
 	print json_encode (array ("result" => "fail", "error" => "Access denied"));
@@ -117,7 +117,7 @@ get_user_data.php kiểm tra phân quyền ở mức high/impossible (nên GET b
 
 change_user_details.php (handler cập nhật) đọc JSON từ php://input, nhưng không thực hiện check dvwaCurrentUser() / session role trước khi cập nhật DB → GET bị chặn nhưng POST vẫn cho phép cập nhật nếu payload hợp lệ.
 
-4) PoC (Step‑by‑step)
+4.) PoC (Step‑by‑step)
 
 1. Đăng nhập DVWA bằng tài khoản gordonb / abc123
 
