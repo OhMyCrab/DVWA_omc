@@ -1,4 +1,4 @@
-# insecure CAPTCHA on /vulnerabilities/authbypass/
+# insecure captcha on /vulnerabilities/authbypass/
 # LOW
 1.) Target
 
@@ -10,11 +10,11 @@ Security level: low
 
 2.) Tóm tắt POC
 
-CAPTCHA chỉ được hiển thị ở phía client (HTML/JS) nhưng không được kiểm tra ở phía server. Kẻ tấn công có thể gửi trực tiếp request POST thực hiện chức năng thay đổi mật khẩu mà không cần cung cấp hoặc có giá trị g-recaptcha-response hợp lệ → bypass CAPTCHA.
+captcha chỉ được hiển thị ở phía client (HTML/JS) nhưng không được kiểm tra ở phía server. Kẻ tấn công có thể gửi trực tiếp request POST thực hiện chức năng thay đổi mật khẩu mà không cần cung cấp hoặc có giá trị g-recaptcha-response hợp lệ → bypass captcha.
 
 3.) PoC
 
-1. Intercept request mà không nhập CAPTCHA.
+1. Intercept request mà không nhập captcha.
 
 2. Trong body request, thay:
    
@@ -24,13 +24,13 @@ CAPTCHA chỉ được hiển thị ở phía client (HTML/JS) nhưng không đ�
 
 3. Forward request.
 
-4. Quan sát thấy server thực hiện thay đổi mật khẩu / trả về 200 OK và thông báo thành công mặc dù không có CAPTCHA hợp lệ → CAPTCHA bị bypass.
+4. Quan sát thấy server thực hiện thay đổi mật khẩu / trả về 200 OK và thông báo thành công mặc dù không có captcha hợp lệ → captcha bị bypass.
 
 <img width="756" height="450" alt="image" src="https://github.com/user-attachments/assets/ba9a6267-6307-436d-85cf-3ac3736fbbf2" />
 
 4.) Phân tích source code
 
-Kiểm tra mã nguồn xử lý POST thấy chỉ xác minh CAPTCHA ở step == 1 nhưng đổi mật khẩu ở step == 2 không kiểm tra lại → có thể gửi trực tiếp step=2 để bypass.
+Kiểm tra mã nguồn xử lý POST thấy chỉ xác minh captcha ở step == 1 nhưng đổi mật khẩu ở step == 2 không kiểm tra lại → có thể gửi trực tiếp step=2 để bypass.
 # MEDIUM 
 1.) Target
 
@@ -42,15 +42,15 @@ Security level: medium
 
 2.) Tóm tắt POC
 
-Server không kiểm tra token (g-recaptcha-response) và/hoặc chấp nhận tham số client-side passed_captcha=true, do đó attacker có thể forge/replay request để bypass CAPTCHA.
+Server không kiểm tra token (g-recaptcha-response) và/hoặc chấp nhận tham số client-side passed_captcha=true, do đó attacker có thể forge/replay request để bypass captcha.
 
 3.) PoC
 
-1. Gửi 1 lần captcha hợp lệ: tích reCAPTCHA và submit. quan sát request — server trả về request body chứa `step=2&password_new=password&password_conf=password&passed_captcha=true&Change=Change`
+1. Gửi 1 lần captcha hợp lệ: tích recaptcha và submit. quan sát request — server trả về request body chứa `step=2&password_new=password&password_conf=password&passed_captcha=true&Change=Change`
 
 <img width="742" height="521" alt="image" src="https://github.com/user-attachments/assets/f1489b16-96b7-4277-848e-9f61af837e4f" />
 
-2. Intercept request username/password mà không nhập CAPTCHA.
+2. Intercept request username/password mà không nhập captcha.
 
 3. Trong body request, thay:
 
@@ -60,13 +60,13 @@ Server không kiểm tra token (g-recaptcha-response) và/hoặc chấp nhận t
 
 <img width="1168" height="959" alt="image" src="https://github.com/user-attachments/assets/b22b7df8-3c7d-4220-83ec-a3ce7b1cb00e" />
 
-4.Forward request, quan sát response: server thực hiện đổi mật khẩu / trả về 200 OK & thông báo password changed → chứng minh CAPTCHA bị bypass bằng cách điều chỉnh step và thay tham số (server chấp nhận passed_captcha=true / không ràng buộc token).
+4.Forward request, quan sát response: server thực hiện đổi mật khẩu / trả về 200 OK & thông báo password changed → chứng minh captcha bị bypass bằng cách điều chỉnh step và thay tham số (server chấp nhận passed_captcha=true / không ràng buộc token).
 
 <img width="743" height="463" alt="image" src="https://github.com/user-attachments/assets/7ee301ac-429b-4391-8fcb-f0be2e92d14a" />
 
 4.) Phân tích source code
 
-Lỗi insecure CAPTCHA xảy ra do server tin dữ liệu client gửi lên thay vì xác thực lại ở server.
+Lỗi insecure captcha xảy ra do server tin dữ liệu client gửi lên thay vì xác thực lại ở server.
 
 `<input type="hidden" name="step" value="2" />`
 
@@ -79,7 +79,7 @@ Lỗi insecure CAPTCHA xảy ra do server tin dữ liệu client gửi lên thay
 Server tin dữ liệu từ client → Có thể sửa hoặc tự tạo POST với các giá trị này.
 
 `if( !$_POST['passed_captcha'] ) { ... }`
-Kiểm tra dựa trên $_POST['passed_captcha'] → Chỉ cần gửi passed_captcha=true thủ công là qua, bypass CAPTCHA.
+Kiểm tra dựa trên $_POST['passed_captcha'] → Chỉ cần gửi passed_captcha=true thủ công là qua, bypass captcha.
 
 # HIGH
 1.) Target
@@ -92,7 +92,7 @@ Security level: high
 
 2.) Tóm tắt POC
 
-Trang web xác minh token reCAPTCHA server-side (gọi https://www.google.com/recaptcha/api/siteverify với secret) và từ chối request nếu xác minh thất bại. Mục tiêu PoC ở mức này là xác nhận hệ thống thực sự xác minh token.
+Trang web xác minh token recaptcha server-side (gọi https://www.google.com/recaptcha/api/siteverify với secret) và từ chối request nếu xác minh thất bại. Mục tiêu PoC ở mức này là xác nhận hệ thống thực sự xác minh token.
 
 3.) Phân tích source code
 
@@ -104,29 +104,29 @@ Trang web xác minh token reCAPTCHA server-side (gọi https://www.google.com/re
 
 `        $_POST['g-recaptcha-response'] == 'hidd3n_valu3'`
 
-`        && $_SERVER['HTTP_USER_AGENT'] == 'reCAPTCHA'`
+`        && $_SERVER['HTTP_USER_AGENT'] == 'recaptcha'`
 
 `    )`
 
 `)`
 
-Server chấp nhận giá trị cố định và header giả mạo để thay thế xác thực CAPTCHA thật.
+Server chấp nhận giá trị cố định và header giả mạo để thay thế xác thực captcha thật.
 
-→ Chỉ cần thay `User-Agent: reCAPTCHA` và `g-recaptcha-response=hidd3n_valu3` → bypass CAPTCHA ở mức high.
+→ Chỉ cần thay `User-Agent: recaptcha` và `g-recaptcha-response=hidd3n_valu3` → bypass captcha.
 
 4.) PoC
 
-1. Intercept request mà không nhập CAPTCHA.
+1. Intercept request mà không nhập captcha.
 
 <img width="879" height="864" alt="image" src="https://github.com/user-attachments/assets/e9101a84-d50f-434b-af62-fd338e8056b9" />
 
 3. Trong body request, thay:
    
-`User-Agent: reCAPTCHA` và `g-recaptcha-response=hidd3n_valu3`
+`User-Agent: recaptcha` và `g-recaptcha-response=hidd3n_valu3`
 
 3. Forward request.
 
-4. Quan sát response thông báo thành công mặc dù không có CAPTCHA hợp lệ → CAPTCHA bị bypass.
+4. Quan sát response thông báo thành công mặc dù không có captcha hợp lệ → captcha bị bypass.
 <img width="876" height="518" alt="image" src="https://github.com/user-attachments/assets/b8968dc8-bf05-43d8-91ee-7704a898659a" />
 
 
