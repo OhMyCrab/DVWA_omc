@@ -7,22 +7,22 @@
 
 2.) Tóm tắt PoC
 
-- Truyền payload ```````<script>alert('hwll')</script>``````` vào các trường name và message. Hai giá trị này được lưu thô vào cơ sở dữ liệu và khi trang hiển thị lại thì nội dung không được escape → JavaScript được thực thi trên trình duyệt của client.
+- Truyền payload `<script>alert('hwll')</script>` vào các trường name và message. Hai giá trị này được lưu thô vào cơ sở dữ liệu và khi trang hiển thị lại thì nội dung không được escape → JavaScript được thực thi trên trình duyệt của client.
 
 3.) PoC (step-by-step)
   1. Intercept request /vulnerabilities/xss_s/.
-  2. Thay đổi giá trị txtName và mtxMessage thành payload: ```````<script>alert('hwll')</script>```````.
+  2. Thay đổi giá trị txtName và mtxMessage thành payload: `<script>alert('hwll')</script>`.
   3. Forward request. Khi load trang, alert('hwll') xuất hiện (xuất hiện 2 lần vì cả 2 trường đều chứa payload).
   4. Kết quả PoC cho lỗ hổng Stored XSS:
   ![anh1](images/stored-xss-low.png).
 
 4.) Payload tested
 
-```````<script>alert('hwll')</script>```````
+`<script>alert('hwll')</script>`
 
 5.) Phân tích source code
 
-- Hai trường name và message được lưu thô vào database và chèn trực tiếp vào trang HTML khi hiển thị, không có bước HTML-escaping hay lọc input. Do đó payload ```````<script>alert('hwll')</script>``````` sẽ được lưu vào DB và thực thi trên trình duyệt của người dùng (Stored XSS)
+- Hai trường name và message được lưu thô vào database và chèn trực tiếp vào trang HTML khi hiển thị, không có bước HTML-escaping hay lọc input. Do đó payload `<script>alert('hwll')</script>` sẽ được lưu vào DB và thực thi trên trình duyệt của người dùng (Stored XSS)
 
 # MEDIUM
 1.) Target
@@ -36,20 +36,20 @@
 
 3.) PoC (step-by-step)
   1. Intercept request /vulnerabilities/xss_s/.
-  2. Thay đổi giá trị txtName và mtxMessage thành payload: ```````<script>alert('hwll')</script>```````.
+  2. Thay đổi giá trị txtName và mtxMessage thành payload: `<script>alert('hwll')</script>`.
   3. Forward request → mở Response quan sát, thấy thẻ <script> của trường name(thẻ mở bị xóa) nên payload không chạy -> có thể thay các biến thể viết hoa, có khoảng trắng, attribute khác, hoặc các event handler vào thử.      Còn tham số message hiển thị alert(&#039;hwllnah&#039;) -> đã escape ký tự đặc biệt HTML, chuyển <, > và ' thành <, >, ', nên script không còn thực thi được nữa.
   4. Intercept request /vulnerabilities/xss_s/ lần nữa
-  5. Thay đổi giá trị txtName thành payload: ```````<img src=x.png onerror=alert('hwll')>```````
+  5. Thay đổi giá trị txtName thành payload: `<img src=x.png onerror=alert('hwll')>`
   6. Forward request. Khi load trang, alert('hwll') xuất hiện.
   7. Kết quả PoC cho lỗ hổng Stored XSS:
   ![anh2](images/stored-xss-medium.png).
 
 4.) Payload tested
 
-```````<img src=x.png onerror=alert('hwll')>```````
+`<img src=x.png onerror=alert('hwll')>`
 
 5.) Phân tích source code
-```````$name = str_replace( '<script>', '', $name );```````
+`$name = str_replace( '<script>', '', $name );`
 //$name chỉ str_replace('<script>', '', $name).
 
 Điều này chỉ loại bỏ chính xác chuỗi "<script>" chứ không loại bỏ </script>, không loại bỏ event attributes (onerror), không loại bỏ tag khác như <img> hay <svg onload=...>.
@@ -62,26 +62,26 @@
 
 2.) Tóm tắt PoC
 
-Truyền payload ```````<script>alert('hwll')</script>``````` vào các trường name và message. Hai giá trị này được lưu thô vào cơ sở dữ liệu và khi trang hiển thị lại thì nội dung không được escape → JavaScript được thực thi trên trình duyệt của client.
+Truyền payload `<script>alert('hwll')</script>` vào các trường name và message. Hai giá trị này được lưu thô vào cơ sở dữ liệu và khi trang hiển thị lại thì nội dung không được escape → JavaScript được thực thi trên trình duyệt của client.
 
 3.) PoC (step-by-step)
   1. Intercept request /vulnerabilities/xss_s/.
-  2. Thay đổi giá trị txtName và mtxMessage thành payload: ```````<script>alert('hwll')</script>```````.
+  2. Thay đổi giá trị txtName và mtxMessage thành payload: `<script>alert('hwll')</script>`.
   3. Forward request → mở Response quan sát, thấy trường name còn > -> có thể đã được xử lý loại bỏ các chuỗi <script nên payload không chạy -> có thể truyền các event handler vào thử.
   Còn tham số message hiển thị alert(\&#039;hwllnah\&#039;) -> đã escape ký tự đặc biệt HTML, chuyển <, > và ' thành &lt;, &gt;, &#039;, nên script không còn thực thi được nữa.
   4. Intercept request /vulnerabilities/xss_s/ lần nữa
-  5. Thay đổi giá trị txtName thành payload: ```````<img src=x.png onerror=alert('hwll')>```````
+  5. Thay đổi giá trị txtName thành payload: `<img src=x.png onerror=alert('hwll')>`
   6. Forward request. Khi load trang, alert('hwll') xuất hiện.
   7. Kết quả PoC cho lỗ hổng Stored XSS:
   ![anh3](images/stored-xss-high.png).
 
 4.) Payload tested
 
-```````<img src=x.png onerror=alert('hwll')>```````
+`<img src=x.png onerror=alert('hwll')>`
 
 5.) Phân tích source code
 
-```````$name = preg_replace( '/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', $name );```````
+`$name = preg_replace( '/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', $name );`
 
 //$name đã được xử lý bằng preg_replace để loại bỏ các chuỗi <script nhưng không chặn được các hướng tấn công XSS khác như event handler (onerror, onclick)
 # Alert img
