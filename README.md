@@ -8,5 +8,5 @@ DVWA:
 - [x] SQL Injection
 - [x] Brute force(low/medium)
 - [x] Authorization bypass
-- [ ] Week session id
+- [x] Week session id(low/medium)
 - [x] Insecure captcha
