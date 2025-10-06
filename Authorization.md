@@ -1,15 +1,15 @@
 # Authorization on /vulnerabilities/authbypass/
 # LOW
 1.) Target
-Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/
+- Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: low
+- Security level: low
 
 2.) Tóm tắt POC
 
-Đăng nhập bằng tài khoản gordonb, sau đó truy cập trực tiếp /authbypass (thay vì qua menu) để dùng chức năng chỉ dành cho admin → Authorization bypass.
+- Đăng nhập bằng tài khoản gordonb, sau đó truy cập trực tiếp /authbypass (thay vì qua menu) để dùng chức năng chỉ dành cho admin → Authorization bypass.
 
 3.) PoC (step-by-step)
 
@@ -21,14 +21,15 @@ Security level: low
 
 # MEDIUM
 1.) Target
-Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/authbypass/
+- Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/authbypass/
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: medium
+- Security level: medium
 
 2.) Tóm tắt POC
-Giao diện HTML chức năng `/authbypass` của người dùng bị khóa nhưng API get_user_data.php vẫn có thể được gọi trực tiếp, nếu API trả dữ liệu → Authorization bypass
+
+- Giao diện HTML chức năng `/authbypass` của người dùng bị khóa nhưng API get_user_data.php vẫn có thể được gọi trực tiếp, nếu API trả dữ liệu → Authorization bypass
 
 3.) Phân tích source code
 file medium.php
@@ -43,9 +44,9 @@ file medium.php
 
 `}`
 
-nếu (dvwaCurrentUser() không phải admin sẽ in ra "Unauthorised";
+- nếu (dvwaCurrentUser() không phải admin sẽ in ra "Unauthorised";
 
-response trả về là http_response_code(403);
+- response trả về là http_response_code(403);
 
 file get_user_data.php
 
@@ -57,7 +58,7 @@ file get_user_data.php
 
 `}`
 
-file get_user_data.php kiểm tra phân quyền chỉ được thực hiện ở mức high và impossible, còn medium và low thì không → người dùng bình thường có thể sử dụng được chức năng này
+- file get_user_data.php kiểm tra phân quyền chỉ được thực hiện ở mức high và impossible, còn medium và low thì không → người dùng bình thường có thể sử dụng được chức năng này
 
 4.) PoC (step-by-step)
 
@@ -69,14 +70,16 @@ file get_user_data.php kiểm tra phân quyền chỉ được thực hiện ở
 
 # HIGH
 1.) Target
-Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/authbypass/
+- Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/authbypass/
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: high
+- Security level: high
 
 2.) Tóm tắt POC
-Ở mức High, cả trang HTML lẫn API GET (get_user_data.php) đã bị khóa khi đăng nhập bằng user. Tuy nhiên, API POST change_user_details.php bị bỏ sót khi kiểm tra phân quyền → user thường có thể gửi POST JSON/form hợp lệ để chỉnh sửa thông tin user khác → Authorization bypass
+
+- Ở mức High, cả trang HTML lẫn API GET (get_user_data.php) đã bị khóa khi đăng nhập bằng user. Tuy nhiên, API POST change_user_details.php bị bỏ sót khi kiểm tra phân quyền → user thường có thể gửi POST JSON/form hợp lệ để chỉnh sửa thông tin user khác → Authorization bypass
+
 3.) Phân tích source code (root cause)
 file high.php
 
@@ -144,11 +147,11 @@ file change_user_details.php
 
 `}`
 
-high.php chặn HTML cho user
+- high.php chặn HTML cho user
 
-get_user_data.php kiểm tra phân quyền ở mức high/impossible (nên GET bị khóa ở high)
+- get_user_data.php kiểm tra phân quyền ở mức high/impossible (nên GET bị khóa ở high)
 
-change_user_details.php (handler cập nhật) đọc JSON từ php://input, nhưng không thực hiện check dvwaCurrentUser() trước khi cập nhật DB → GET bị chặn nhưng POST vẫn cho phép cập nhật nếu payload hợp lệ.
+- change_user_details.php (handler cập nhật) đọc JSON từ php://input, nhưng không thực hiện check dvwaCurrentUser() trước khi cập nhật DB → GET bị chặn nhưng POST vẫn cho phép cập nhật nếu payload hợp lệ.
 
 4.) PoC (Step‑by‑step)
 
