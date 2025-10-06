@@ -9,7 +9,7 @@
 
 Truyền payload `<script>alert('hwllnah')</script>` vào biến name, giá trị này được chèn thô vào trang mà không được escape dẫn tới thực thi mã JavaScript phía client.
 
-3.) PoC (step-by-step)
+3.) PoC  
 1. Intercept request `/vulnerabilities/xss_r/?name=aaa`.
 2. thay đổi param `aaa` với payload: `<script>alert('hwllnah')</script>`.
 3. Forward request → alert hwllnah xuất hiện trên browser.
@@ -37,7 +37,7 @@ Vì server strip (loại bỏ) thẻ <script> nên thẻ mở bị xóa ⇒ payl
 Ý tưởng thay thế: chèn một thẻ có handler (không phải <script>) — ví dụ <img> + onerror vì server chỉ strip <script>, vẫn cho phép các thẻ/thuộc tính khác.
 Khi thẻ không tìm thấy src thì onerror sẽ chạy JS.
 
-3.) PoC (step-by-step)
+3.) PoC  
 1. Intercept request `/vulnerabilities/xss_r/?name=aaa`.
 2. thay đổi param `aaa` với payload: `<script>alert('hwllnah')</script>`.
 3. Forward request → mở Response → Raw / View Source. Do server strip thẻ <script> (thẻ mở bị xóa) nên payload không chạy.
@@ -67,7 +67,7 @@ Khi thẻ không tìm thấy src thì onerror sẽ chạy JS.
 
 Thay payload đã URL encode từ level medium vào high:`%3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E`, Vì không tìm thấy src nên onerror sẽ chạy JS.
 
-3.) PoC (step-by-step)
+3.) PoC  
 1. Intercept request `/vulnerabilities/xss_r/?name=aaa`.
 2. thay đổi param `aaa` với payload: `<img src=x onerror=alert('hwllnah')>` đã URL encode.
 5. URL-encoded: `%3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E`
