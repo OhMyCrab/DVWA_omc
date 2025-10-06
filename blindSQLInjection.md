@@ -1,17 +1,17 @@
 # Blind SQL Injection on /vulnerabilities/sqli_blind/
-Mục tiêu: khai thác SQL Injection để làm trang trả về tất cả bản ghi (all users) thay vì chỉ 1 user.
+- Mục tiêu: khai thác SQL Injection để làm trang trả về tất cả bản ghi (all users) thay vì chỉ 1 user.
 # LOW
 1.) Target
 
-Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli_blind/?id=5&Submit=Submit#`
+- Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli_blind/?id=5&Submit=Submit#`
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: low
+- Security level: low
 
 2.) Tóm tắt POC
 
-Payload `'AND SLEEP(10)-- -` chèn payload làm delay phía DB (SLEEP) để quan sát sự khác biệt thời gian phản hồi → server chậm đúng thời gian delay → truy vấn SQL được ghép nối.
+- Payload `'AND SLEEP(10)-- -` chèn payload làm delay phía DB (SLEEP) để quan sát sự khác biệt thời gian phản hồi → server chậm đúng thời gian delay → truy vấn SQL được ghép nối.
 
 3.) PoC (step-by-step)
 
@@ -35,20 +35,20 @@ Payload `'AND SLEEP(10)-- -` chèn payload làm delay phía DB (SLEEP) để qua
 
 `WHERE user_id = '$id';`
 
-Vì $id đến từ input GET nên attacker có thể chèn payload như `'AND SLEEP(10)-- -` để thực hiện time-based blind SQLi.
+- Vì $id đến từ input GET nên attacker có thể chèn payload như `'AND SLEEP(10)-- -` để thực hiện time-based blind SQLi.
 
 # MEDIUM:
 1.) Target
 
-Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/`
+- Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/`
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: medium
+- Security level: medium
 
 2.) Tóm tắt POC
 
-Payload `AND SLEEP(10)-- -` chèn payload làm delay phía DB (SLEEP) để quan sát sự khác biệt thời gian phản hồi -> server chậm đúng thời gian delay -> truy vấn SQL được ghép nối.
+- Payload `AND SLEEP(10)-- -` chèn payload làm delay phía DB (SLEEP) để quan sát sự khác biệt thời gian phản hồi -> server chậm đúng thời gian delay -> truy vấn SQL được ghép nối.
 
 3.) PoC (step-by-step)
 
@@ -79,15 +79,15 @@ Payload `AND SLEEP(10)-- -` chèn payload làm delay phía DB (SLEEP) để quan
 # HIGH
 1.) Target
 
-Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli_blind/cookie-input.php#`
+- Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli_blind/cookie-input.php#`
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: high
+- Security level: high
 
 2.) Tóm tắt POC
 
-Payload `'OR 1=1-- -` là một khai thác làm điều kiện WHERE luôn đúng và vì trang trả dữ liệu trực tiếp nên đây là in‑band SQL Injection.
+- Payload `'OR 1=1-- -` là một khai thác làm điều kiện WHERE luôn đúng và vì trang trả dữ liệu trực tiếp nên đây là in‑band SQL Injection.
 
 3.) PoC (step-by-step)
 
@@ -119,4 +119,4 @@ Payload `'OR 1=1-- -` là một khai thác làm điều kiện WHERE luôn đún
 				$result = false;
 			}
    
-$id được ghép vào câu truy vấn trong dấu nháy: WHERE user_id = '$id'. Nếu truyền payload bắt đầu bằng dấu nháy (ví dụ: -100' OR 1=1-- ) thì payload sẽ đóng chuỗi, chèn OR 1=1 (luôn đúng) và dùng -- để comment phần còn lại (ví dụ LIMIT 1), dẫn tới ứng dụng hiển thị "User ID exists in the database." → xác nhận boolean-based SQL Injection.
+- $id được ghép vào câu truy vấn trong dấu nháy: WHERE user_id = '$id'. Nếu truyền payload bắt đầu bằng dấu nháy (ví dụ: -100' OR 1=1-- ) thì payload sẽ đóng chuỗi, chèn OR 1=1 (luôn đúng) và dùng -- để comment phần còn lại (ví dụ LIMIT 1), dẫn tới ứng dụng hiển thị "User ID exists in the database." → xác nhận boolean-based SQL Injection.
