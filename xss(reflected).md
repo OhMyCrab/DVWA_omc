@@ -7,7 +7,7 @@
 
 2.) Tóm tắt
 
-Truyền payload `<script>alert('hwllnah')</script>` vào biến name, giá trị này được chèn thô vào trang mà không được escape dẫn tới thực thi mã JavaScript phía client.
+- Truyền payload `<script>alert('hwllnah')</script>` vào biến name, giá trị này được chèn thô vào trang mà không được escape dẫn tới thực thi mã JavaScript phía client.
 
 3.) PoC  
 1. Intercept request `/vulnerabilities/xss_r/?name=aaa`.
@@ -23,7 +23,7 @@ Truyền payload `<script>alert('hwllnah')</script>` vào biến name, giá tr�
   
 5.) Phân tích source code
 
-Tham số đầu vào được chèn trực tiếp vào trang HTML mà không được mã hoá (HTML-escaping), vì vậy payload `<script>alert('hwllnah')</script>` sẽ được phản chiếu và thực thi.
+- Tham số đầu vào được chèn trực tiếp vào trang HTML mà không được mã hoá (HTML-escaping), vì vậy payload `<script>alert('hwllnah')</script>` sẽ được phản chiếu và thực thi.
 
 # MEDIUM
 1.) Target
@@ -33,7 +33,7 @@ Tham số đầu vào được chèn trực tiếp vào trang HTML mà không đ
 
 2.) Tóm tắt
 
-Vì server strip (loại bỏ) thẻ <script> nên thẻ mở bị xóa ⇒ payload <script>alert('hwllnah')</script> không xuất hiện/không được parse => không chạy.
+- Vì server strip (loại bỏ) thẻ <script> nên thẻ mở bị xóa ⇒ payload <script>alert('hwllnah')</script> không xuất hiện/không được parse => không chạy.
 Ý tưởng thay thế: chèn một thẻ có handler (không phải <script>) — ví dụ <img> + onerror vì server chỉ strip <script>, vẫn cho phép các thẻ/thuộc tính khác.
 Khi thẻ không tìm thấy src thì onerror sẽ chạy JS.
 
@@ -55,7 +55,7 @@ Khi thẻ không tìm thấy src thì onerror sẽ chạy JS.
 
 `$name = str_replace( '<script>', '', $_GET[ 'name' ] );`
 
-//$_GET[ 'name' ] đã có xử lý chặn <script>. Cách này chỉ loại bỏ chuỗi <script> đúng chuẩn, nhưng không chặn các biến thể viết hoa, có khoảng trắng, attribute khác, hoặc các event handler như onerror/onclick.
+- $_GET[ 'name' ] đã có xử lý chặn <script>. Cách này chỉ loại bỏ chuỗi <script> đúng chuẩn, nhưng không chặn các biến thể viết hoa, có khoảng trắng, attribute khác, hoặc các event handler như onerror/onclick.
 
 # HIGH
 1.) Target
@@ -65,7 +65,7 @@ Khi thẻ không tìm thấy src thì onerror sẽ chạy JS.
 
 2.) Tóm tắt
 
-Thay payload đã URL encode từ level medium vào high:`%3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E`, Vì không tìm thấy src nên onerror sẽ chạy JS.
+- Thay payload đã URL encode từ level medium vào high:`%3Cimg%20src%3D%22x.png%22%20onerror%3D%22alert('hwllnah')%22%3E`, Vì không tìm thấy src nên onerror sẽ chạy JS.
 
 3.) PoC  
 1. Intercept request `/vulnerabilities/xss_r/?name=aaa`.
@@ -83,7 +83,7 @@ Thay payload đã URL encode từ level medium vào high:`%3Cimg%20src%3D%22x.pn
 
 `$name = preg_replace( '/<(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i', '', $_GET[ 'name' ] );`
 
-//$_GET['name'] đã được xử lý bằng preg_replace để loại bỏ các chuỗi <script nhưng không chặn được các vector khác như event handler (onerror, onclick)
+- $_GET['name'] đã được xử lý bằng preg_replace để loại bỏ các chuỗi <script nhưng không chặn được các vector khác như event handler (onerror, onclick)
 
 # Alert 
 
