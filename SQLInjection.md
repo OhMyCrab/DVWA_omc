@@ -1,17 +1,17 @@
 # SQL Injection on /vulnerabilities/sqli/
-Mục tiêu: khai thác SQL Injection để làm trang trả về tất cả bản ghi (all users) thay vì chỉ 1 user.
+- Mục tiêu: khai thác SQL Injection để làm trang trả về tất cả bản ghi (all users) thay vì chỉ 1 user.
 # LOW
 1.) Target
 
-Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#
+- Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: low
+- Security level: low
 
 2.) Tóm tắt POC
 
-"Payload `'OR 1=1-- -` làm điều kiện WHERE luôn đúng và vì trang trả dữ liệu trực tiếp nên đây là in‑band SQL Injection.
+- "Payload `'OR 1=1-- -` làm điều kiện WHERE luôn đúng và vì trang trả dữ liệu trực tiếp nên đây là in‑band SQL Injection.
 
 3.) PoC (step-by-step)
 
@@ -32,15 +32,15 @@ Security level: low
 # MEDIUM:
 1.) Target
 
-Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#
+- Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: medium
+- Security level: medium
 
 2.) Tóm tắt POC
 
-Chèn payload làm điều kiện WHERE luôn đúng `OR 1=1`  vào tham số id → server trả về toàn bộ bản ghi, chứng minh tồn tại SQL Injection.
+- Chèn payload làm điều kiện WHERE luôn đúng `OR 1=1`  vào tham số id → server trả về toàn bộ bản ghi, chứng minh tồn tại SQL Injection.
 
 3.) PoC (step-by-step)
 
@@ -66,15 +66,15 @@ Chèn payload làm điều kiện WHERE luôn đúng `OR 1=1`  vào tham số id
 # HIGH
 1.) Target
 
-Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#`
+- Target URL: `http://127.0.0.1/DVWA-master/vulnerabilities/sqli/?id=1&Submit=Submit#`
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: high
+- Security level: high
 
 2.) Tóm tắt POC
 
-"Payload `'OR 1=1-- -` là một khai thác làm điều kiện WHERE luôn đúng và vì trang trả dữ liệu trực tiếp nên đây là in‑band SQL Injection.
+- "Payload `'OR 1=1-- -` là một khai thác làm điều kiện WHERE luôn đúng và vì trang trả dữ liệu trực tiếp nên đây là in‑band SQL Injection.
 
 3.) PoC (step-by-step)
 
