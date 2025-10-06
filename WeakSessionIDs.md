@@ -1,18 +1,18 @@
 # Weak session ids on /vulnerabilities/weak_id/
-Mục tiêu: phân tích cách session id được tạo ra
+- Mục tiêu: phân tích cách session id được tạo ra
 
 # LOW
 1.) Target
 
-Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/vulnerabilities/weak_id/
+- Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/vulnerabilities/weak_id/
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: low
+- Security level: low
 
 2.) Tóm tắt POC
 
-Giá trị dvwaSession khi nhấn nút Renegate tăng mỗi lần 1 đơn vị, bắt đầu từ 0
+- Giá trị dvwaSession khi nhấn nút Renegate tăng mỗi lần 1 đơn vị, bắt đầu từ 0
 
 3.) PoC
 
@@ -50,20 +50,20 @@ Giá trị dvwaSession khi nhấn nút Renegate tăng mỗi lần 1 đơn vị, 
 
 `?>`
 
-Giá trị dvwaSession chỉ là một số nguyên tăng dần. Mỗi khi người dùng thực hiện yêu cầu POST (nhấn nút generate), ID phiên tiếp theo là ID phiên hiện tại cộng thêm 1.
+- Giá trị dvwaSession chỉ là một số nguyên tăng dần. Mỗi khi người dùng thực hiện yêu cầu POST (nhấn nút generate), ID phiên tiếp theo là ID phiên hiện tại cộng thêm 1.
 
 # MEDIUM
 1.) Target
 
-Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/vulnerabilities/weak_id/
+- Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/vulnerabilities/weak_id/
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: medium
+- Security level: medium
 
 2.) Tóm tắt POC
 
-Giá trị dvwaSession khi nhấn nút Renegate sẽ hiển thị thời gian Unix Timestamp (dấu thời gian Unix) ở dạng số nguyên(Unix Timestamp là tổng số giây đã trôi qua kể từ 00:00:00 UTC, ngày 1 tháng 1 năm 1970)
+- Giá trị dvwaSession khi nhấn nút Renegate sẽ hiển thị thời gian Unix Timestamp (dấu thời gian Unix) ở dạng số nguyên(Unix Timestamp là tổng số giây đã trôi qua kể từ 00:00:00 UTC, ngày 1 tháng 1 năm 1970)
 
 3.) PoC
 
@@ -92,14 +92,14 @@ Giá trị dvwaSession khi nhấn nút Renegate sẽ hiển thị thời gian Un
 `}`
 
 `?>`
-Hàm time() của PHP trả về Unix Timestamp hiện tại—tổng số giây đã trôi qua kể từ ngày 1 tháng 1 năm 1970. Giá trị này là một số nguyên
+- Hàm time() của PHP trả về Unix Timestamp hiện tại—tổng số giây đã trôi qua kể từ ngày 1 tháng 1 năm 1970. Giá trị này là một số nguyên
 
 # HIGH
 1.) Target
 
-Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/vulnerabilities/weak_id/
+- Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/vulnerabilities/weak_id/
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: high
+- Security level: high
 
