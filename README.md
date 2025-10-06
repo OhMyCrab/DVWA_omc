@@ -9,4 +9,4 @@ DVWA:
 - [x] Brute force(low/medium)
 - [x] Authorization bypass
 - [ ] Week session id
-- [x] Insecure captcha(low/medium)
+- [x] Insecure captcha
