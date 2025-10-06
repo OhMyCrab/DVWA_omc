@@ -2,15 +2,15 @@
 # LOW
 1.) Target
 
-Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/captcha/
+- Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/captcha/
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: low
+- Security level: low
 
 2.) Tóm tắt POC
 
-captcha chỉ được hiển thị ở phía client (HTML/JS) nhưng không được kiểm tra ở phía server. Kẻ tấn công có thể gửi trực tiếp request POST thực hiện chức năng thay đổi mật khẩu mà không cần cung cấp hoặc có giá trị g-recaptcha-response hợp lệ → bypass captcha.
+- captcha chỉ được hiển thị ở phía client (HTML/JS) nhưng không được kiểm tra ở phía server. Kẻ tấn công có thể gửi trực tiếp request POST thực hiện chức năng thay đổi mật khẩu mà không cần cung cấp hoặc có giá trị g-recaptcha-response hợp lệ → bypass captcha.
 
 3.) PoC
 
@@ -30,19 +30,19 @@ captcha chỉ được hiển thị ở phía client (HTML/JS) nhưng không đ�
 
 4.) Phân tích source code
 
-Kiểm tra mã nguồn xử lý POST thấy chỉ xác minh captcha ở step == 1 nhưng đổi mật khẩu ở step == 2 không kiểm tra lại → có thể gửi trực tiếp step=2 để bypass.
+- Kiểm tra mã nguồn xử lý POST thấy chỉ xác minh captcha ở step == 1 nhưng đổi mật khẩu ở step == 2 không kiểm tra lại → có thể gửi trực tiếp step=2 để bypass.
 # MEDIUM 
 1.) Target
 
-Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/captcha/
+- Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/captcha/
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: medium
+- Security level: medium
 
 2.) Tóm tắt POC
 
-Server không kiểm tra token (g-recaptcha-response) và/hoặc chấp nhận tham số client-side passed_captcha=true, do đó attacker có thể forge/replay request để bypass captcha.
+- Server không kiểm tra token (g-recaptcha-response) và/hoặc chấp nhận tham số client-side passed_captcha=true, do đó attacker có thể forge/replay request để bypass captcha.
 
 3.) PoC
 
@@ -66,7 +66,7 @@ Server không kiểm tra token (g-recaptcha-response) và/hoặc chấp nhận t
 
 4.) Phân tích source code
 
-Lỗi insecure captcha xảy ra do server tin dữ liệu client gửi lên thay vì xác thực lại ở server.
+- Lỗi insecure captcha xảy ra do server tin dữ liệu client gửi lên thay vì xác thực lại ở server.
 
 `<input type="hidden" name="step" value="2" />`
 
@@ -76,23 +76,23 @@ Lỗi insecure captcha xảy ra do server tin dữ liệu client gửi lên thay
 
 `<input type="hidden" name="passed_captcha" value="true" />`
 
-Server tin dữ liệu từ client → Có thể sửa hoặc tự tạo POST với các giá trị này.
+- Server tin dữ liệu từ client → Có thể sửa hoặc tự tạo POST với các giá trị này.
 
 `if( !$_POST['passed_captcha'] ) { ... }`
-Kiểm tra dựa trên $_POST['passed_captcha'] → Chỉ cần gửi passed_captcha=true thủ công là qua, bypass captcha.
+- Kiểm tra dựa trên $_POST['passed_captcha'] → Chỉ cần gửi passed_captcha=true thủ công là qua, bypass captcha.
 
 # HIGH
 1.) Target
 
-Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/captcha/
+- Target URL: http://127.0.0.1/DVWA-master/vulnerabilities/captcha/
 
-Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
+- Environment: Windows 10, XAMPP Apache/2.4.58, PHP 8.2.12, DVWA vX.Y, Burp Suite Community
 
-Security level: high
+- Security level: high
 
 2.) Tóm tắt POC
 
-Trang web xác minh token recaptcha server-side (gọi https://www.google.com/recaptcha/api/siteverify với secret) và từ chối request nếu xác minh thất bại. Mục tiêu PoC ở mức này là xác nhận hệ thống thực sự xác minh token.
+- Trang web xác minh token recaptcha server-side (gọi https://www.google.com/recaptcha/api/siteverify với secret) và từ chối request nếu xác minh thất bại. Mục tiêu PoC ở mức này là xác nhận hệ thống thực sự xác minh token.
 
 3.) Phân tích source code
 
@@ -110,7 +110,7 @@ Trang web xác minh token recaptcha server-side (gọi https://www.google.com/re
 
 `)`
 
-Server chấp nhận giá trị cố định và header giả mạo để thay thế xác thực captcha thật.
+- Server chấp nhận giá trị cố định và header giả mạo để thay thế xác thực captcha thật.
 
 → Chỉ cần thay `User-Agent: recaptcha` và `g-recaptcha-response=hidd3n_valu3` → bypass captcha.
 
