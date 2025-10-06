@@ -60,7 +60,7 @@ Server không kiểm tra token (g-recaptcha-response) và/hoặc chấp nhận t
 
 <img width="1168" height="959" alt="image" src="https://github.com/user-attachments/assets/b22b7df8-3c7d-4220-83ec-a3ce7b1cb00e" />
 
-4.Forward request, quan sát response: server thực hiện đổi mật khẩu / trả về 200 OK & thông báo password changed → chứng minh captcha bị bypass bằng cách điều chỉnh step và thay tham số (server chấp nhận passed_captcha=true / không ràng buộc token).
+4.Forward request, quan sát response: server thực hiện đổi mật khẩu và thông báo password changed → chứng minh captcha bị bypass bằng cách điều chỉnh step và thay tham số (server chấp nhận passed_captcha=true).
 
 <img width="743" height="463" alt="image" src="https://github.com/user-attachments/assets/7ee301ac-429b-4391-8fcb-f0be2e92d14a" />
 
@@ -120,13 +120,12 @@ Server chấp nhận giá trị cố định và header giả mạo để thay t
 
 <img width="879" height="864" alt="image" src="https://github.com/user-attachments/assets/e9101a84-d50f-434b-af62-fd338e8056b9" />
 
-3. Trong body request, thay:
+2. Trong body request, thay:
    
 `User-Agent: recaptcha` và `g-recaptcha-response=hidd3n_valu3`
 
-3. Forward request.
-
-4. Quan sát response thông báo thành công mặc dù không có captcha hợp lệ → captcha bị bypass.
+3. Forward request, quan sát response thông báo thành công mặc dù không có captcha hợp lệ → captcha bị bypass.
+4. 
 <img width="876" height="518" alt="image" src="https://github.com/user-attachments/assets/b8968dc8-bf05-43d8-91ee-7704a898659a" />
 
 
