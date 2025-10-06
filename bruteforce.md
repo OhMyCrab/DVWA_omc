@@ -1,4 +1,4 @@
-# Bruteforce /vulnerabilities/xss_s/
+# Bruteforce /vulnerabilities/brute/
 # LOW
 - Mục tiêu: Bruteforce mật khẩu của admin
 
