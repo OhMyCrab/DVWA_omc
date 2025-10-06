@@ -66,6 +66,8 @@ Server không kiểm tra token (g-recaptcha-response) và/hoặc chấp nhận t
 
 4.) Phân tích source code
 
+Lỗi insecure CAPTCHA xảy ra do server tin dữ liệu client gửi lên thay vì xác thực lại ở server.
+
 `<input type="hidden" name="step" value="2" />`
 
 `<input type="hidden" name="password_new" value="{$pass_new}" />`
@@ -74,7 +76,7 @@ Server không kiểm tra token (g-recaptcha-response) và/hoặc chấp nhận t
 
 `<input type="hidden" name="passed_captcha" value="true" />`
 
-Server tin dữ liệu từ client (hidden inputs) → Có thể sửa hoặc tự tạo POST với các giá trị này.
+Server tin dữ liệu từ client → Có thể sửa hoặc tự tạo POST với các giá trị này.
 
 `if( !$_POST['passed_captcha'] ) { ... }`
 Kiểm tra dựa trên $_POST['passed_captcha'] → Chỉ cần gửi passed_captcha=true thủ công là qua, bypass CAPTCHA.
