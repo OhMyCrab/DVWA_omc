@@ -1,4 +1,4 @@
-# insecure captcha on /vulnerabilities/authbypass/
+# insecure captcha on /vulnerabilities/captcha/
 # LOW
 1.) Target
 
