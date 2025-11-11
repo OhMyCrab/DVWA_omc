@@ -111,7 +111,7 @@ if( isset( $_POST[ 'Submit' ]  ) ) {
 2. Nhập vào ô text payload `8.8.8.8|whoami`.
 3. Nhấn nút submit -> trang trả về kết quả
 
-![Uploading image.png…]()
+<img width="695" height="806" alt="image" src="https://github.com/user-attachments/assets/fc8de1f6-c7ce-471e-9817-984e5cf69be6" />
 
 4.) Payload tested
 8.8.8.8|whoami
