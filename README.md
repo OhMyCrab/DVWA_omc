@@ -1,5 +1,5 @@
-# Lab Pentest Tuần 1
-Mục tiêu: DVWA local — Recon, XSS, SQLi, Broken Auth.
+# Lab Pentest
+Mục tiêu: DVWA local — Recon, XSS, SQLi, Broken Auth, Command Injection, CSRF.
 
 Env: XAMPP, Apache 2.4, PHP 8.1, DVWA level: Low/Med/High
 
