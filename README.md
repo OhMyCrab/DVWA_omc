@@ -13,3 +13,4 @@ DVWA:
 - [x] Authorization bypass
 - [x] Week session id(low/medium)
 - [x] Insecure captcha
+- [x] Command Injection
