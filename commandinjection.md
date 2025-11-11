@@ -12,7 +12,7 @@
 
 2.) Tóm tắt POC
 
-- Tham số ip từ request được nối trực tiếp vào shell_exec('ping ' . $target) mà không validate hoặc escape nên hacker chèn thêm lệnh bằng các ký tự như ;, |, &&, ||, $(),… để hệ thống thực thi thêm lệnh ngoài ý muốn
+- Tham số ip từ request được nối trực tiếp vào shell_exec('ping '.$target) mà không validate hoặc escape nên hacker chèn thêm lệnh bằng các ký tự như ;, |, &&, ||, $(),… để hệ thống thực thi thêm lệnh ngoài ý muốn
 
 3.) POC
 
@@ -66,7 +66,7 @@ if( isset( $_POST[ 'Submit' ]  ) ) {
 
 2.) Tóm tắt POC
 
-- Tham số ip từ request được nối trực tiếp vào shell_exec('ping ' . $target) đã escape kí tự &&,; nhưng vẫn còn nhiều ký tự chưa escape, hacker có thể chèn thêm lệnh bằng các ký tự như &,|, ||, $(),… để hệ thống thực thi thêm lệnh ngoài ý muốn
+- Tham số ip từ request được nối trực tiếp vào shell_exec('ping '.$target) đã escape kí tự &&,; nhưng vẫn còn nhiều ký tự chưa escape, hacker có thể chèn thêm lệnh bằng các ký tự như &,|, ||, $(),… để hệ thống thực thi thêm lệnh ngoài ý muốn
 
 3.) POC
 
@@ -103,7 +103,7 @@ if( isset( $_POST[ 'Submit' ]  ) ) {
 
 2.) Tóm tắt POC
 
-- Tham số ip từ request được nối trực tiếp vào shell_exec('ping ' . $target) đã escape kí tự &&,; nhưng vẫn còn nhiều ký tự chưa escape, hacker có thể chèn thêm lệnh bằng các ký tự như &,|, ||, $(),… để hệ thống thực thi thêm lệnh ngoài ý muốn
+- Tham số ip từ request được nối trực tiếp vào shell_exec('ping '.$target) đã escape kí tự &&,; nhưng vẫn còn nhiều ký tự chưa escape, hacker có thể chèn thêm lệnh bằng các ký tự như &,|, ||, $(),… để hệ thống thực thi thêm lệnh ngoài ý muốn
 
 3.) POC
 
